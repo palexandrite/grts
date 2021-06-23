@@ -4,6 +4,7 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local
 RUN docker-php-ext-install pdo mbstring
 WORKDIR /app
 COPY . /app
+RUN rm composer.lock
 RUN composer update --lock
 RUN composer install
 
