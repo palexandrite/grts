@@ -6,7 +6,7 @@ WORKDIR /app
 RUN rm -rf ./vendor
 COPY . /app
 RUN rm composer.lock
-RUN composer require laravel/telescope
+RUN composer require laravel/telescope --dev
 RUN composer update
 RUN composer install
 
