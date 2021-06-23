@@ -5,6 +5,7 @@ RUN docker-php-ext-install pdo mbstring
 WORKDIR /app
 COPY . /app
 RUN rm composer.lock
+RUN composer require laravel/telescope
 RUN composer update
 RUN composer install
 
