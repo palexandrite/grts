@@ -21,7 +21,7 @@ RUN apt-get update && apt-get install -y \
 USER root
 RUN docker-php-ext-install pdo_mysql mbstring zip exif pcntl
 # Install composer
-COPY composer.lock composer.json /app
+COPY composer.lock composer.json /app/
 RUN curl -sS https://getcomposer.org/installer | php
 #RUN php -d memory_limit=-1 composer.phar update
 #RUN php -d memory_limit=-1 composer.phar install
