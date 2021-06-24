@@ -1,4 +1,4 @@
-FROM php:8.0
+FROM php:8.0.7-zts
 RUN apt-get update -y && apt-get install -y \
     build-essential \
     libzip-dev \
