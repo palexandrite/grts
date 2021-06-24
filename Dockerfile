@@ -27,5 +27,7 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local
 #RUN php -d memory_limit=-1 composer.phar install
 COPY . /app
 RUN chmod -R 777 /app
+RUN yes | composer require laravel/telescope 
+RUN php artisan telescope:install
 EXPOSE 9000
 CMD ["php-fpm"]
