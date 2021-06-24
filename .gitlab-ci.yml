@@ -50,7 +50,7 @@ dbupgrade-master:
     - docker container run -i --rm --name ${IMGNAMEPROD}_DB_upgrade --network $DB_NETWORK $IMGNAMEPROD php artisan migrate
     - docker container run -i --rm --name ${IMGNAMEPROD}_DB_upgrade --network $DB_NETWORK $IMGNAMEPROD php artisan db:seed
 
-PmplanAdmin-Deploy-master:
+deploy-master:
   stage: deploy
   tags:
     - hetz
@@ -62,6 +62,6 @@ PmplanAdmin-Deploy-master:
     - if [ "$(docker inspect -f '{{.State.Status}}' $CONTNAMEPROD 2>/dev/null)" = "exited" ]; then docker rm -f $CONTNAMEPROD;  fi
   script: 
     - docker container run -d --name $CONTNAMEPROD --restart=always --net-alias gratus-api --network=$DB_NETWORK $IMGNAMEPROD
-    - docker network connect $WEB_NETWORK $CONTNAMEPROD 
+    - docker network connect --alias gratus-api $WEB_NETWORK $CONTNAMEPROD 
     - docker container run -d -p 8083:80 --name $CONTNAMEPRODWEB --restart=always --net-alias gratus-web --network=$WEB_NETWORK $IMGNAMEPRODWEB
 
