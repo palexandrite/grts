@@ -1,5 +1,6 @@
-FROM php:8.0.7-zts
-RUN apt-get update -y && apt-get install -y \
+FROM php:8.0.7-fpm
+WORKDIR /var/www
+RUN apt-get update && apt-get install -y \
     build-essential \
     libzip-dev \
     libpng-dev \
@@ -17,12 +18,14 @@ RUN apt-get update -y && apt-get install -y \
     libonig-dev \
     libpq-dev \
     && apt-get clean && rm -rf /var/lib/apt/lists/*
-COPY composer.lock composer.json /app/
 USER root
-RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
-RUN docker-php-ext-install pdo_mysql mbstring zip pcntl
-WORKDIR /app
-COPY . /app
-
-CMD php artisan serve --host=0.0.0.0 --port=8181
-EXPOSE 8181
+RUN docker-php-ext-install pdo_mysql mbstring zip exif pcntl
+# Install composer
+COPY composer.lock composer.json /var/www/
+RUN curl -sS https://getcomposer.org/installer | php
+#RUN php -d memory_limit=-1 composer.phar update
+#RUN php -d memory_limit=-1 composer.phar install
+COPY . /var/www
+RUN chmod -R 777 /var/www
+EXPOSE 9000
+CMD ["php-fpm"]
