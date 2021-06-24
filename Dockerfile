@@ -1,12 +1,22 @@
 FROM php:8.0
 RUN apt-get update -y && apt-get install -y \
-  openssl \
-  zip \
-  unzip \
-  git \
-  libonig-dev \
-  libpq-dev \
-  && apt-get clean && rm -rf /var/lib/apt/lists/*
+    build-essential \
+    libzip-dev \
+    libpng-dev \
+    libjpeg62-turbo-dev \
+    libwebp-dev libjpeg62-turbo-dev libpng-dev libxpm-dev \
+    libfreetype6 \
+    libfreetype6-dev \
+    locales \
+    zip \
+    jpegoptim optipng pngquant gifsicle \
+    unzip \
+    curl \
+    openssl \
+    git \
+    libonig-dev \
+    libpq-dev \
+    && apt-get clean && rm -rf /var/lib/apt/lists/*
 COPY composer.lock composer.json /app/
 USER root
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
