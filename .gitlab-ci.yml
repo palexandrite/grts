@@ -6,10 +6,13 @@ stages:
 variables:
     IMGNAMEPROD: "gratus_api_master"
     CONTNAMEPROD: "gratus_api_master"
+    IMGNAMEPRODWEB: "gratus_web_master"
+    CONTNAMEPRODWEB: "gratus_web_master"    
     URL_APP: "gratus.envionsoftware.com"
     DB_NETWORK: "db"
+    WEB_NETWORK: "gratusweb"
 
-build-master:
+build-api-master:
   stage: build
   tags: 
     - hetz
@@ -24,6 +27,17 @@ build-master:
     - sed -i "s|DB_PASSWORD=gtgratus|DB_PASSWORD=ZyUqDMe3XprYg4y2s|g" ./.env
     - docker build -t $IMGNAMEPROD .
 
+build-web-master:
+  stage: build
+  tags: 
+    - hetz
+    - web01
+  only:
+    - master
+  script:
+    - echo $CI_PROJECT_DIR
+    - docker build -t $IMGNAMEPRODWEB -f Dockerfile_nginx .
+
 dbupgrade-master:
   stage: dbupgrade
   tags:
@@ -32,6 +46,7 @@ dbupgrade-master:
   only:
     - master
   script:
+  #  - docker container run -i --rm --name ${IMGNAMEPROD}_DB_upgrade --network $DB_NETWORK $IMGNAMEPROD php artisan migrate:fresh
     - docker container run -i --rm --name ${IMGNAMEPROD}_DB_upgrade --network $DB_NETWORK $IMGNAMEPROD php artisan migrate
     - docker container run -i --rm --name ${IMGNAMEPROD}_DB_upgrade --network $DB_NETWORK $IMGNAMEPROD php artisan db:seed
 
@@ -46,5 +61,7 @@ PmplanAdmin-Deploy-master:
     - if [ "$(docker inspect -f '{{.State.Running}}' $CONTNAMEPROD 2>/dev/null)" = "true" ]; then docker rm -f $CONTNAMEPROD;  fi
     - if [ "$(docker inspect -f '{{.State.Status}}' $CONTNAMEPROD 2>/dev/null)" = "exited" ]; then docker rm -f $CONTNAMEPROD;  fi
   script: 
-    - docker container run -d -p 8181:8181 --name $CONTNAMEPROD --restart=always --network=$DB_NETWORK $IMGNAMEPROD
+    - docker container run -d --name $CONTNAMEPROD --restart=always --net-alias gratus-api --network=$DB_NETWORK $IMGNAMEPROD
+    - docker network connect $WEB_NETWORK $CONTNAMEPROD 
+    - docker container run -d -p 8083:80 --name $CONTNAMEPRODWEB --restart=always --net-alias gratus-web --network=$WEB_NETWORK $IMGNAMEPRODWEB
 
