@@ -60,6 +60,9 @@ deploy-master:
   before_script:
     - if [ "$(docker inspect -f '{{.State.Running}}' $CONTNAMEPROD 2>/dev/null)" = "true" ]; then docker rm -f $CONTNAMEPROD;  fi
     - if [ "$(docker inspect -f '{{.State.Status}}' $CONTNAMEPROD 2>/dev/null)" = "exited" ]; then docker rm -f $CONTNAMEPROD;  fi
+    - if [ "$(docker inspect -f '{{.State.Running}}' $CONTNAMEPRODWEB 2>/dev/null)" = "true" ]; then docker rm -f $CONTNAMEPRODWEB;  fi
+    - if [ "$(docker inspect -f '{{.State.Status}}' $CONTNAMEPRODWEB 2>/dev/null)" = "exited" ]; then docker rm -f $CONTNAMEPRODWEB;  fi
+
   script: 
     - docker container run -d --name $CONTNAMEPROD --restart=always --net-alias gratus-api --network=$DB_NETWORK $IMGNAMEPROD
     - docker network connect --alias gratus-api $WEB_NETWORK $CONTNAMEPROD 
