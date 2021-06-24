@@ -22,12 +22,7 @@ USER root
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 RUN docker-php-ext-install pdo_mysql mbstring zip pcntl
 WORKDIR /app
-#RUN rm -rf ./vendor
 COPY . /app
-#RUN rm composer.lock
-#RUN composer require laravel/telescope --dev
-#RUN composer update
-#RUN composer install
 
 CMD php artisan serve --host=0.0.0.0 --port=8181
 EXPOSE 8181
