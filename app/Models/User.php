@@ -25,6 +25,7 @@ class User extends Authenticatable
         'last_name',
         'email',
         'password',
+        'status',
         'device_name'
     ];
 
@@ -57,6 +58,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $attributes = [
+        'device_name' => 'unknown-device',
         'status' => self::STATUS_PENDING,
     ];
 
@@ -84,6 +86,15 @@ class User extends Authenticatable
         $visibleAttributes = array_values( array_diff($attributeNames, $this->hidden) );
 
         return array_map('ucfirst', preg_replace('#[_]+#', ' ', $visibleAttributes));
+    }
+
+    public static function setStatus($value)
+    {
+        if ($value === 'Active' || $value === true) {
+            return self::STATUS_APPROVED;
+        } else if ($value === 'Pending' || $value === false) {
+            return self::STATUS_PENDING;
+        }
     }
 
     /**

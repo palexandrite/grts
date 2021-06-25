@@ -7,19 +7,42 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Database\Eloquent\Collection;
 use App\Http\Requests\UserRequest;
+use Illuminate\Support\Facades\Hash;
 use App\Models\User;
 
 class UserController extends Controller
 {
+    /**
+     * Display a listing of the user resource.
+     */
     public function index()
     {
         $users = User::offset(0)->limit(10)->get();
-        $attributes = ['attr-names' => $this->getAttributeAsKeys($users)];
+        $attributes = ['attrnames' => $this->getAttributeAsKeys($users)];
         $userArray = ['items' => $users->toArray()];
         return array_merge($userArray, $attributes);
     }
 
-    public function get(Request $request)
+    /**
+     * Create a new user
+     */
+    // public function create()
+    // {
+    //     //
+    // }
+
+    /**
+     * Save a new user
+     */
+    public function store()
+    {
+        //
+    }
+
+    /**
+     * Show the specified user
+     */
+    public function edit(Request $request)
     {
         $id = $request->post('item');
         $user = User::find($id);
@@ -27,39 +50,46 @@ class UserController extends Controller
         return response()->json($user);
     }
 
-    public function edit(UserRequest $request)
+    /**
+     * Update the specified user
+     */
+    public function update(UserRequest $request)
     {
-        // @todo Here is an error. It should respond with error messages when the form is not valid
+        // Return the validated form data
         $validated = $request->validated();
 
-        return response()->json(['item' => $validated]);
+        $response = [];
 
-        // return response()->json(['message' => 'you can go home', 'isSaved' => true]);
-        // if (!$validated) {
-        //     return response()->json("something went wrong", Response::HTTP_INTERNAL_SERVER_ERROR);
-        // } else {
-        //     return response()->json("everything is valid");
-        // }
-        // $input = $request->post();
-        // $updateableFields = [
-        //     'name' => $input['name'] ?? '',
-        //     'email' => $input['email'] ?? '',
-        //     'password' => $input['password'] ?? '',
-        //     'status' => User::STATUS_REGISTERED,
-        // ];
+        $updateableFields = [
+            'first_name' => $validated['first_name'],
+            'last_name' => $validated['last_name'],
+            'email' => $validated['email'],
+            'status' => User::setStatus($validated['status']),
+        ];
 
-        // if () {
+        if (!empty($validated['password'])) {
+            $updateableFields['password'] = Hash::make($validated['password']);
+        }
 
-        // }
+        $user = User::where(['id' => $validated['id']])->update($updateableFields);
 
-        // if ( isset($input['status']) && $input['status'] === true ) {
-        //     $updateableFields['status'] = User::STATUS_RESIDENT;
-        // }
-        
-        // $response = User::where(['id' => $input['id']])->update($updateableFields);
+        if (! $user) {
+            $responseCode = Response::HTTP_INTERNAL_SERVER_ERROR;
+            $response = ['serverError' => 'Something went wrong on my side. Mr. Server'];
+        } else {
+            $responseCode = Response::HTTP_OK;
+            $response = ['success' => 'Passed data were successfully saved'];
+        }
 
-        // return response()->json($input['status']);
-        // return response()->json($validated);
+        return response()->json($response, $responseCode);
+    }
+
+    /**
+     * Remove the specified user from storage.
+     */
+    public function destroy($id)
+    {
+        //
     }
 
     private function getAttributeAsKeys(Collection $collection)

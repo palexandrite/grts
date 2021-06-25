@@ -31,11 +31,17 @@ Route::middleware(['auth'])->prefix('manager')->group(function () {
 
         Route::post('/get-stats', StatsController::class);
 
-        Route::post('/get-users', [UserController::class, 'index']);
+        Route::prefix('users')->group(function () {
 
-        Route::post('/get-user', [UserController::class, 'get']);
+            Route::post('/', [UserController::class, 'index']);
 
-        Route::post('/edit-user', [UserController::class, 'edit']);
+            Route::post('/create', [UserController::class, 'store']);
+
+            Route::post('/show', [UserController::class, 'edit']);
+
+            Route::post('/update', [UserController::class, 'update']);
+
+        });
 
     });
 

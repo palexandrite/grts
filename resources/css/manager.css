@@ -69,6 +69,18 @@ a[data-object=expandable] + span {
     transform: translateX(-80px);
 }
 
+@media (max-width: 278px) {
+    a[data-object=expandable] + span {
+        padding-left: 0.4rem;
+        transform: none;
+    }
+
+    a[data-object=expandable] > span {
+        z-index: 0;
+        transform: none;
+    }
+}
+
 /*!
  *   AdminLTE v3.1.0
  *   Author: Colorlib

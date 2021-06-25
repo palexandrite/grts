@@ -143,13 +143,13 @@ class Users extends React.Component
                     <Switch>
                         <Route exact path="/manager/users/create">
                             <Form
-                                model="user" 
+                                model="users" 
                                 fields={ this.getFormFields() }
                                 currentText="Create an user" />
                         </Route>
                         <Route exact path="/manager/users/edit/:id">
                             <Form
-                                model="user" 
+                                model="users" 
                                 fields={ this.getFormFields() }
                                 currentText="Edit the user" />
                         </Route>

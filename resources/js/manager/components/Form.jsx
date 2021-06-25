@@ -4,6 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import PropTypes from "prop-types";
 
 import Spinner from "./Spinner";
+import Button from "./Button";
 
 class Form extends React.Component
 {
@@ -17,14 +18,20 @@ class Form extends React.Component
     {
         super(props);
         this.state = {
+            errors: null,
             item: {},
             isCreatePage: false,
             isRendered: false,
-            isSubmitted: false,
+            successSubmitMessage: null,
+            serverErrorMessage: null,
         };
 
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleChange = this.handleChange.bind(this);
+        this.invalidInputCssClass = "is-invalid";
+        this.submitButtonRef = React.createRef();
+        this.submitTextRef = React.createRef();
+        this.submitSpinnerRef = React.createRef();
     }
 
     componentWillUnmount()
@@ -38,7 +45,7 @@ class Form extends React.Component
     {
         if ( this.props.match.params.id ) {
 
-            let url = "/manager/get-" + this.props.model,
+            let url = "/manager/" + this.props.model + "/show",
                 params = {
                     method: "POST",
                     headers: {
@@ -86,40 +93,47 @@ class Form extends React.Component
     {
         e.preventDefault();
 
-        console.log("this is a payload");
-        console.dir(this.state.item);
+        let submitButton = this.submitButtonRef.current;
+        let submitText = this.submitTextRef.current;
+        let submitSpinner = this.submitSpinnerRef.current;
 
-        let fetchParams = {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-                "X-Requested-With": "XMLHttpRequest",
-                "X-CSRF-Token": document.querySelector("meta[name=csrf-token]").content
-            },
-            body: JSON.stringify(this.state.item),
-        };
+        submitButton.disabled = true;
+        submitText.classList.toggle("d-none");
+        submitSpinner.classList.toggle("d-none");
 
-        fetch("/manager/edit-user", fetchParams)
-            .then(response => response.json())
+        let url = "/manager/" + this.props.model + "/update",
+            params = {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "X-Requested-With": "XMLHttpRequest",
+                    "X-CSRF-Token": document.querySelector("meta[name=csrf-token]").content
+                },
+                body: JSON.stringify(this.state.item),
+            };
+
+        fetch( url, params )
+            .then(response => response.json() )
             .then(data => {
 
-                console.log("this is a response");
-                console.dir(data);
+                submitButton.disabled = false;
+                submitText.classList.toggle("d-none");
+                submitSpinner.classList.toggle("d-none");
+
+                if (data.exception) {
+                    this.setState({
+                        serverErrorMessage: "Suddenly, some server error was occurred"
+                    });
+                    throw new Error("Oh, holy cow! We've caught some server error on the board!");
+                }
 
                 if ( data.errors ) {
-                    // show validation errors
-                } else if ( !data.isSaved ) {
-                    // show the error message of saving to the DB
-                } else {
-                    // show success message and redirect to the home page of the current page
+                    this.setState({errors: data.errors});
+                } else if ( data.success ) {
+                    this.setState({successSubmitMessage: data.success});
                 }
-                // this.setState({
-                //     attributes: this.getAttributes(),
-                //     item: this.prepareData(data),
-                //     isRendered: true
-                // });
             })
-            .catch(error => console.error("Pipe all hands on deck! We've got an error with the submit.", error));
+            .catch(error => console.error("Pipe all hands on the deck! We've got an error with the submit.", error));
     }
 
     handleChange( e )
@@ -133,6 +147,9 @@ class Form extends React.Component
             prevItem[ name ] = value;
             return {
                 item: prevItem,
+                errors: null,
+                serverErrorMessage: null,
+                successSubmitMessage: null,
             };
         });
     }
@@ -175,46 +192,102 @@ class Form extends React.Component
         return autocomplete !== null ? autocomplete : undefined;
     }
 
+    getCurrentValidation( inputName )
+    {
+        let validationErrors = this.state.errors,
+            element = {};
+
+        if ( validationErrors !== null && validationErrors[ inputName ] ) {
+            element.valElement = (
+                <div className="invalid-feedback">
+                    { validationErrors[ inputName ].join("; ") }
+                </div>
+            );
+            element.valCssClass = this.invalidInputCssClass;
+        } else {
+            element = {
+                valElement: null,
+                valCssClass: ""
+            };
+        }
+
+        return element;
+    }
+
+    getCurrentClassList( classList, validationClass )
+    {
+        let current = classList.search( this.invalidInputCssClass );
+
+        if ( validationClass !== "" ) {
+            if ( current == -1 ) {
+                classList += " " + validationClass;
+            } 
+        } else {
+            if ( current > -1 ) {
+                classList = classList.replace( " " + this.invalidInputCssClass, "" );
+            }
+        }
+
+        return classList;
+    }
+
     getInputElement( object )
     {
-        let $inputElement = false;
+        let $inputElement = false,
+            $checkboxValElement = null;
 
         if ( object.inputElement ) {
 
+            let { name } = object.inputElement;
+
+            let { valElement, valCssClass } = this.getCurrentValidation( name );
+
+            if ( object.inputElement.className ) {
+                let classList = object.inputElement.className;
+                object.inputElement.className = this.getCurrentClassList( classList, valCssClass );
+            } 
+
             let autocomplete = this.getAutocompleteForInput( object.inputElement.type );
 
-            if ( object.inputElement.type === "checkbox" ) {
+            if ( object.inputElement.type === "hidden" ) {
+                $inputElement = (
+                    <input { ...object.inputElement } value={ object.value } />
+                );
+            } else if (
+                object.inputElement.type === "checkbox" ||
+                object.inputElement.type === "radio"
+            ) {
                 $inputElement = (
                     <input
                         { ...object.inputElement } 
                         defaultChecked={ object.value === "Active" }
                         onChange={ this.handleChange } />
                 );
-            } else if ( object.inputElement.type === "hidden" ) {
-                $inputElement = (
-                    <input { ...object.inputElement } value={ object.value } />
-                );
+                $checkboxValElement = valElement;
             } else {
                 $inputElement = (
+                    <>
                     <input
                         { ...object.inputElement }
                         autoComplete={ autocomplete }
                         defaultValue={ object.value }
                         onChange={ this.handleChange } />
+                    { valElement }
+                    </>
                 );
             }
         }
 
-        return $inputElement;
+        return [ $inputElement, $checkboxValElement ];
     }
 
-    getLayoutOfElement( object, label, input )
+    getLayoutOfElement( object, label, input, valElementOfCheckbox )
     {
         let { beginLayoutWith } = object;
 
         if ( beginLayoutWith !== undefined && beginLayoutWith === "input" ) {
             return (
-                <>{ input }{ label }</>
+                <>{ input }{ label }{ valElementOfCheckbox }</>
             );
         }
 
@@ -225,10 +298,7 @@ class Form extends React.Component
 
     getFormElements()
     {
-        let $output = [],
-            $label,
-            $inputElement,
-            $elementLayout;
+        let $output = [];
 
         if ( Object.keys( this.props.fields ).length > 0 ) {
 
@@ -248,11 +318,11 @@ class Form extends React.Component
                     }
                 }
 
-                $label = this.getLabelElement( value );
+                let $label = this.getLabelElement( value );
 
-                $inputElement = this.getInputElement( value );
+                let [ $inputElement, $valCheckboxElement ] = this.getInputElement( value );
 
-                $elementLayout = this.getLayoutOfElement( value, $label, $inputElement );
+                let $elementLayout = this.getLayoutOfElement( value, $label, $inputElement, $valCheckboxElement );
 
                 if ( value.wrapperElement ) {
                     $output.push(
@@ -267,14 +337,34 @@ class Form extends React.Component
         return $output;
     }
 
-    rednerForm()
+    renderForm()
     {
+        let { successSubmitMessage, serverErrorMessage } = this.state;
+
         return (
             <form onSubmit={ this.handleSubmit }>
 
                 { this.getFormElements() }
 
-                <input type="submit" value="Submit" className="btn btn-primary"/>
+                <button 
+                    ref={ this.submitButtonRef }
+                    type="submit"
+                    className="btn btn-primary mr-5"
+                >
+                    <span ref={ this.submitTextRef }>Submit</span>
+                    <span className="d-none" ref={ this.submitSpinnerRef }>
+                        <span className="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                        Loading...
+                    </span>
+                </button>
+
+                <span className="d-block d-sm-inline pt-1 ms-sm-3 text-success">
+                    { successSubmitMessage }
+                </span>
+                <span className="d-block d-sm-inline pt-1 ms-sm-3 text-danger">
+                    { serverErrorMessage }
+                </span>
+
             </form>
         );
     }
@@ -302,11 +392,11 @@ class Form extends React.Component
                             Back to all
                         </span>
                     </Link>
-                    <span className="border-start ps-2">{ this.props.currentText }</span>
+                    <span className="border-start ps-sm-2">{ this.props.currentText }</span>
                 </div>
                 <div className="card-body">
 
-                    { isRendered ? this.rednerForm() : <Spinner /> }
+                    { isRendered ? this.renderForm() : <Spinner /> }
                     
                 </div>
             </div>

@@ -19,7 +19,7 @@ class Table extends React.Component
 
     componentDidMount()
     {
-        let url = "/manager/get-" + this.props.model;
+        let url = "/manager/" + this.props.model;
         let params = {
             method: "POST",
             headers: {
@@ -44,38 +44,14 @@ class Table extends React.Component
 
     prepareTableHead( $data )
     {
-        let $thead;
-
-        if ( $data["attr-names"] ) {
-            $thead = $data["attr-names"];
-
-            if ( $data.items && this.props.model === "users" ) {
-                $thead.push("Password");
-            }
-        }
-
-        return $thead;
+        let { attrnames } = $data;
+        return attrnames;
     }
 
     prepareTableBody( $data )
     {
-        let $bulkData = [];
-
-        if (
-            $data.items &&
-            this.props.model === "users"
-        ) {
-            let items = $data.items;
-
-            if ( Array.isArray( items ) ) {
-                $bulkData = items.map(element => {
-                    element.password = "••••••••";
-                    return element;
-                }); 
-            }
-        }
-
-        return $bulkData;
+        let { items } = $data;
+        return items;
     }
 
     renderTable()

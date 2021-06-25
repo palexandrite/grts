@@ -10,7 +10,7 @@ use App\Models\User;
 class UserRequest extends FormRequest
 {
 
-    protected $stopOnFirstFailure = true;
+    protected $stopOnFirstFailure = false;
 
     /**
      * Determine if the user is authorized to make this request.
@@ -34,7 +34,7 @@ class UserRequest extends FormRequest
             'first_name' => ['required', 'string', 'max:255'],
             'last_name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255'],
-            'password' => ['nullable', 'string', Password::defaults()],
+            'password' => ['required_without:id', 'nullable', 'string', Password::defaults()],
             'status' => ['required', Rule::in( User::getClientStatuses() )],
         ];
     }
@@ -47,7 +47,7 @@ class UserRequest extends FormRequest
     public function messages()
     {
         return [
-            'status.in' => 'The status is incorrect',
+            'status.in' => 'The email status is incorrect.',
         ];
     }
 }
