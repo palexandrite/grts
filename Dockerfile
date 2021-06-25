@@ -1,4 +1,5 @@
-FROM php:8.0.7-fpm
+#FROM php:8.0.7-fpm
+FROM php:8.0.7-fpm-alpine3.12
 WORKDIR /var/www
 RUN apt-get update && apt-get install -y \
     build-essential \
