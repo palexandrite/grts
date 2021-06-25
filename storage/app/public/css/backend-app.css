@@ -1,0 +1,33 @@
+.auth-box {
+    background-color: #e9ecef;
+    height: 100vh;
+}
+
+.auth-box form {
+    width: 85%;
+}
+
+@media (min-width: 768px) {
+    .auth-box form {
+        width: 54%;
+    }
+}
+
+@media (min-width: 992px) {
+    .auth-box form {
+        width: 46%;
+    }
+}
+
+@media (min-width: 1200px) {
+    .auth-box form {
+        width: 20rem;
+    }
+}
+
+/**
+ * Font sizes
+*/
+.fs-7 {
+    font-size: 0.875rem !important;
+}
