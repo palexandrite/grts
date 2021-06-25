@@ -1,5 +1,5 @@
 FROM php:8.0.7-fpm
-WORKDIR /app
+WORKDIR /var/www
 RUN apt-get update && apt-get install -y \
     build-essential \
     libzip-dev \
@@ -21,12 +21,12 @@ RUN apt-get update && apt-get install -y \
 USER root
 RUN docker-php-ext-install pdo_mysql mbstring zip exif pcntl
 # Install composer
-COPY composer.lock composer.json /app/
+COPY composer.lock composer.json /var/www/
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 #RUN php -d memory_limit=-1 composer.phar update
 #RUN php -d memory_limit=-1 composer.phar install
-COPY . /app
-RUN chmod -R 777 /app
+COPY . /var/www
+RUN chmod -R 777 /var/www
 RUN rm -rf ./vendor
 RUN  composer require --prefer-source  laravel/telescope
 RUN php artisan telescope:install
