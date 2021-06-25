@@ -30,5 +30,7 @@ RUN chmod -R 777 /var/www
 RUN rm -rf ./vendor
 RUN  composer require --prefer-source  laravel/telescope
 RUN php artisan telescope:install
+RUN rm  /var/www/public/storage
+RUN  php artisan storage:link
 EXPOSE 9000
 CMD ["php-fpm"]
