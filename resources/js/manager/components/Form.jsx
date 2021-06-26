@@ -375,7 +375,7 @@ class Form extends React.Component
     render()
     {
         const { isRendered } = this.state;
-        const linkTo = "/manager/" + this.props.model + "s";
+        const linkTo = "/manager/" + this.props.model;
 
         return (
             <div className="card">

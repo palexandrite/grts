@@ -47,6 +47,7 @@ class UserRequest extends FormRequest
     public function messages()
     {
         return [
+            'password.required_without' => 'The password field is required',
             'status.in' => 'The email status is incorrect.',
         ];
     }
