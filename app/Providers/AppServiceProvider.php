@@ -49,7 +49,7 @@ class AppServiceProvider extends ServiceProvider
         /**
          * Force the scheme of all urls within the app
          */
-        if ($_ENV['https']) {
+        if (env('APP_FORCED_HTTPS', false)) {
             URL::forceScheme('https');
         }
     }
