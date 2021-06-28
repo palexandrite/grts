@@ -1,11 +1,8 @@
-import React from "react";
-
 import TableActionCell from "./TableActionCell";
 
-class TableBody extends React.Component
+function TableBody( props )
 {
-    renderTableBodyRow( item ) 
-    {
+    let tableBodyRow = ( item ) => {
         let i = 0;
         let output = [];
         for (let prop in item) {
@@ -21,32 +18,25 @@ class TableBody extends React.Component
             <TableActionCell 
                 key={ i++ } 
                 id={ item.id }
-                model={ this.props.model } />
+                model={ props.model }
+                onDeleteClick={ props.onDeleteClick } />
         );
         return output;
-    }
+    };
 
-    /**
-     * The main action
-     */
-     render()
-     {
-        if (this.props.items) {
-            let content = this.props.items.map((value, index) => {
-                return (
-                    <tr key={ index }>
-                        { this.renderTableBodyRow(value) }
-                    </tr>
-                );
-            });
-
-            return (
-                <tbody>
-                    { content }
-                </tbody>
-            );
-        }
-     }
+    return (
+        <tbody>
+            {
+                props.items ? props.items.map((value, index) => {
+                    return (
+                        <tr key={ index }>
+                            { tableBodyRow(value) }
+                        </tr>
+                    );
+                }) : "Content is loading..." 
+            }
+        </tbody>
+    );
 }
 
 export default TableBody;

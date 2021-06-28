@@ -4,7 +4,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import PropTypes from "prop-types";
 
 import Spinner from "./Spinner";
-import Button from "./Button";
 
 class Form extends React.Component
 {
@@ -28,6 +27,7 @@ class Form extends React.Component
 
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleChange = this.handleChange.bind(this);
+        this.prepareItem = this.prepareItem.bind(this);
         this.invalidInputCssClass = "is-invalid";
         this.submitButtonRef = React.createRef();
         this.submitTextRef = React.createRef();
@@ -73,6 +73,7 @@ class Form extends React.Component
             let match = this.props.match.url.match( new RegExp("\/create$", "i") ) || [];
             if ( match.length > 0 ) {
                 this.setState({
+                    item: this.prepareItem( null ),
                     isCreatePage: true,
                     isRendered: true,
                 });
@@ -85,8 +86,19 @@ class Form extends React.Component
 
     prepareItem( item )
     {
-        item.password = "";
-        return item;
+        if ( item !== null ) {
+            item.password = "";
+            return item;
+        } else {
+            let $item = {};
+
+            this.props.fields.map((value, index) => {
+                if ( index === 0 ) return;
+                $item[ value.inputElement.name ] = value.value;
+            });
+
+            return $item;
+        }
     }
 
     handleSubmit( e )
@@ -101,7 +113,7 @@ class Form extends React.Component
         submitText.classList.toggle("d-none");
         submitSpinner.classList.toggle("d-none");
 
-        let url = "/manager/" + this.props.model + "/update",
+        let url = "/manager/" + this.props.model + "/" + this.props.url,
             params = {
                 method: "POST",
                 headers: {
@@ -115,6 +127,9 @@ class Form extends React.Component
         fetch( url, params )
             .then(response => response.json() )
             .then(data => {
+
+                console.log('this is a response');
+                console.dir(data);
 
                 submitButton.disabled = false;
                 submitText.classList.toggle("d-none");

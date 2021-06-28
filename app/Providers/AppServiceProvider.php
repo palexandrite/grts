@@ -46,21 +46,10 @@ class AppServiceProvider extends ServiceProvider
                         : $rule;
         });
 
-        if (
-            (
-                !empty(Request::server('REQUEST_SCHEME')) && 
-                Request::server('REQUEST_SCHEME') === 'https'
-            ) 
-            ||
-            (
-                !empty(Request::server('HTTPS')) && 
-                Request::server('HTTPS') != 'off' 
-            )
-            ||
-            (
-                Request::server('SERVER_PORT') === 443
-            )
-        ) {
+        /**
+         * Force the scheme of all urls within the app
+         */
+        if ($_ENV['https']) {
             URL::forceScheme('https');
         }
     }

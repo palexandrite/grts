@@ -88,6 +88,11 @@ class User extends Authenticatable
         return array_map('ucfirst', preg_replace('#[_]+#', ' ', $visibleAttributes));
     }
 
+    /**
+     * Set the status of a saved model
+     * @warning It mustn't be 'setStatusAttribute' 'cause Laravel will process it through the core
+     * in that case
+     */
     public static function setStatus($value)
     {
         if ($value === 'Active' || $value === true) {

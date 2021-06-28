@@ -41,6 +41,10 @@ Route::middleware(['auth'])->prefix('manager')->group(function () {
 
             Route::post('/update', [UserController::class, 'update']);
 
+            Route::post('/search', [UserController::class, 'search']);
+
+            Route::post('/delete', [UserController::class, 'destroy']);
+
         });
 
     });

@@ -81,6 +81,16 @@ a[data-object=expandable] + span {
     }
 }
 
+/**
+ * Toasts
+*/
+.toast-wrap {
+    position: fixed;
+    top: 5%;
+    right: 0;
+    z-index: 1034;
+}
+
 /*!
  *   AdminLTE v3.1.0
  *   Author: Colorlib

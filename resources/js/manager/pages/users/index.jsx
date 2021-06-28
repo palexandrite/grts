@@ -105,7 +105,7 @@ class Users extends React.Component
                     className: "form-check-input"
                 },
                 beginLayoutWith: "input",
-                value: ""
+                value: "Pending"
             },
         ];
     }
@@ -144,12 +144,14 @@ class Users extends React.Component
                         <Route exact path="/manager/users/create">
                             <Form
                                 model="users" 
+                                url="create"
                                 fields={ this.getFormFields() }
                                 currentText="Create an user" />
                         </Route>
                         <Route exact path="/manager/users/edit/:id">
                             <Form
                                 model="users" 
+                                url="update"
                                 fields={ this.getFormFields() }
                                 currentText="Edit the user" />
                         </Route>

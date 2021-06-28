@@ -33,7 +33,9 @@ class UserRequest extends FormRequest
             'id' => 'integer',
             'first_name' => ['required', 'string', 'max:255'],
             'last_name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255'],
+            'email' => [
+                'required', 'string', 'email', 'max:255', Rule::unique('users')->ignore($this->id)
+            ],
             'password' => ['required_without:id', 'nullable', 'string', Password::defaults()],
             'status' => ['required', Rule::in( User::getClientStatuses() )],
         ];
@@ -47,7 +49,7 @@ class UserRequest extends FormRequest
     public function messages()
     {
         return [
-            'password.required_without' => 'The password field is required',
+            'password.required_without' => 'The password field is required in case of creation',
             'status.in' => 'The email status is incorrect.',
         ];
     }

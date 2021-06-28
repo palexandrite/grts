@@ -1,19 +1,16 @@
-import React from "react";
-
-class TableHead extends React.Component
+function TableHead( props )
 {
-    renderTableHead()
-    {
+    let tableHead = () => {
         let output = [];
 
         if (
-            Array.isArray( this.props.items ) &&
-            this.props.items.length > 0
+            Array.isArray( props.items ) &&
+            props.items.length > 0
         ) {
 
             let i, item = null;
 
-            this.props.items.map((value, index) => {
+            props.items.map((value, index) => {
                 item = (
                     <th key={ index }>
                         { value }
@@ -23,23 +20,17 @@ class TableHead extends React.Component
                 i++;
             });
 
-            output.push(<th key={ i } width="20px"></th>);
+            output.push(<th key={ i }></th>);
         }
 
         return ( <tr>{ output }</tr> );
-    }
+    };
 
-    /**
-     * The main action
-     */
-    render()
-    {
-        return (
-            <thead>
-                { this.renderTableHead() }
-            </thead>
-        );
-    }
+    return (
+        <thead>
+            { tableHead() }
+        </thead>
+    );
 }
 
 export default TableHead;
