@@ -25,6 +25,7 @@ build-api-master:
     - sed -i "s|APP_URL=http://localhost|APP_URL=https://$URL_APP|g" ./.env
     - sed -i "s|DB_USERNAME=root|DB_USERNAME=gratus|g" ./.env
     - sed -i "s|DB_PASSWORD=gtgratus|DB_PASSWORD=ZyUqDMe3XprYg4y2s|g" ./.env
+    - sed -i "s|APP_FORCED_HTTPS=0|APP_FORCED_HTTPS=1|g" ./.env
     - docker build -t $IMGNAMEPROD .
 
 build-web-master:
