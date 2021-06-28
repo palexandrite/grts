@@ -64,7 +64,7 @@ deploy-master:
     - if [ "$(docker inspect -f '{{.State.Status}}' $CONTNAMEPRODWEB 2>/dev/null)" = "exited" ]; then docker rm -f $CONTNAMEPRODWEB;  fi
 
   script: 
-    - docker container run -d --name $CONTNAMEPROD --restart=always --net-alias gratus-api --network=$DB_NETWORK $IMGNAMEPROD
+    - docker container run -d --name $CONTNAMEPROD -e https=1 --restart=always --net-alias gratus-api --network=$DB_NETWORK $IMGNAMEPROD
     - docker network connect --alias gratus-api $WEB_NETWORK $CONTNAMEPROD 
-    - docker container run -d -p 8083:80 --name $CONTNAMEPRODWEB --restart=always --net-alias gratus-web --network=$WEB_NETWORK $IMGNAMEPRODWEB
+    - docker container run -d -p 8083:80 --name $CONTNAMEPRODWEB -e https=1 --restart=always --net-alias gratus-web --network=$WEB_NETWORK $IMGNAMEPRODWEB
 
