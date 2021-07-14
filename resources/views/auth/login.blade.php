@@ -27,6 +27,7 @@
                             name="email"
                             value="{{ old('email') }}"
                             placeholder="Type email..."
+                            autocomplete="email"
                             required
                             autofocus
                         >

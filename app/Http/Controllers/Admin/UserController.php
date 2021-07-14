@@ -29,14 +29,6 @@ class UserController extends Controller
     }
 
     /**
-     * Create a new user
-     */
-    // public function create()
-    // {
-    //     //
-    // }
-
-    /**
      * Save a new user
      */
     public function store(UserRequest $request)

@@ -13,6 +13,10 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
+        \App\Models\User::factory()->create([
+            'email' => 'gratus@example.com',
+        ]);
+
         $number = rand(30, 50);
         \App\Models\User::factory($number)->create();
     }

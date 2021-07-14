@@ -3,56 +3,39 @@ import { library } from "@fortawesome/fontawesome-svg-core";
 
 // import your icons
 import { 
-    // faAd, 
-    // faAddressBook, 
     faArrowLeft,
     faArrowRight,
     faBars,
-    // faCalendar,
-    faChevronLeft, 
-    // faEllipsisH,
-    // faExclamationTriangle, 
-
+    faChevronLeft,
     faCheck,
+    faMoneyBillAlt,
     faPencilAlt,
+    faSitemap,
     faTrashAlt,
-
-    // faGavel,
-    // faHandshake, 
-    // faPenFancy,
-    faUsers, 
-    // faUserCog,
-    // faUserTie,
-    // faWalking
+    faPeopleArrows, 
+    faUsersCog,
+    faUserTie
 } from "@fortawesome/free-solid-svg-icons";
 
 import {
     faTimesCircle
 } from "@fortawesome/free-regular-svg-icons";
 
-library.add(
-    // faAd, 
-    // faAddressBook,
-    faArrowLeft,
-    faArrowRight,
-    faBars,
-    // faCalendar, 
-    faChevronLeft, 
-    // faEllipsisH,
-    // faExclamationTriangle,
-
-    faCheck,
-    faPencilAlt,
-    faTrashAlt,
-
-    // faGavel, 
-    // faHandshake, 
-    // faPenFancy,
-
-    faTimesCircle,
-
-    faUsers, 
-    // faUserCog,
-    // faUserTie,
-    // faWalking 
-);
+export default function FontAwesomeRegister()
+{
+    library.add(
+        faArrowLeft,
+        faArrowRight,
+        faBars,
+        faChevronLeft,
+        faCheck,
+        faMoneyBillAlt,
+        faPencilAlt,
+        faPeopleArrows,
+        faTrashAlt,
+        faTimesCircle,
+        faSitemap, 
+        faUsersCog,
+        faUserTie
+    );
+}

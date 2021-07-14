@@ -12,7 +12,7 @@ const MENU_SECTIONS = {
     },
     items: [
         {
-            title: "Users", 
+            title: "Website management", 
             href: "", 
             itemClass: "nav-header",
             icon: [], 
@@ -22,30 +22,50 @@ const MENU_SECTIONS = {
             },
         },
         {
-            title: "All users", 
+            title: "Organizations", 
+            href: "/manager/organizations", 
+            itemClass: "nav-link", 
+            icon: ["fas", "sitemap"], 
+            iconClass: "nav-icon", 
+            badge: {
+                badgeClass: "right badge bg-purple",
+            },
+        },
+        {
+            title: "Sevice Providers", 
+            href: "/manager/service-providers", 
+            itemClass: "nav-link", 
+            icon: ["fas", "people-arrows"], 
+            iconClass: "nav-icon", 
+            badge: {
+                badgeClass: "right badge bg-purple",
+            },
+        },
+        {
+            title: "Customers", 
+            href: "/manager/customers", 
+            itemClass: "nav-link", 
+            icon: ["fas", "user-tie"], 
+            iconClass: "nav-icon", 
+            badge: {
+                badgeClass: "right badge bg-purple",
+            },
+        },
+        {
+            title: "Transactions", 
+            href: "/manager/transactions", 
+            itemClass: "nav-link", 
+            icon: ["fas", "money-bill-alt"], 
+            iconClass: "nav-icon", 
+            badge: {
+                badgeClass: "right badge bg-purple",
+            },
+        },
+        {
+            title: "Users", 
             href: "/manager/users", 
             itemClass: "nav-link", 
-            icon: ["fas", "users"], 
-            iconClass: "nav-icon", 
-            badge: {
-                badgeClass: "right badge bg-purple",
-            },
-        },
-        {
-            title: "Tippers", 
-            href: "/manager/tippers", 
-            itemClass: "nav-link", 
-            icon: ["fas", "users"], 
-            iconClass: "nav-icon", 
-            badge: {
-                badgeClass: "right badge bg-purple",
-            },
-        },
-        {
-            title: "Recievers", 
-            href: "/manager/recievers", 
-            itemClass: "nav-link", 
-            icon: ["fas", "users"], 
+            icon: ["fas", "users-cog"], 
             iconClass: "nav-icon", 
             badge: {
                 badgeClass: "right badge bg-purple",

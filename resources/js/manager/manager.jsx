@@ -8,7 +8,9 @@ import "../../css/animate.css";
 import "../../css/bootstrap5.css";
 import "../../css/manager.css";
 import "../bootstrap5.bundle.js";
-import "./fontawesome";
+import registerFaIcons from "./fontawesome";
+
+registerFaIcons();
 
 const app = (
     <BrowserRouter>

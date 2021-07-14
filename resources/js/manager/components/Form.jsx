@@ -5,6 +5,17 @@ import PropTypes from "prop-types";
 
 import Spinner from "./Spinner";
 
+// const fetchBefore = async (url, params) => {
+//     try {
+//         const response = await fetch(url, params);
+//         const responseJson = await response.json();
+
+//         return responseJson;
+//     } catch ( error ) {
+//         console.error("Pipe all hands on deck! We've got an error with the response", error)
+//     }
+// };
+
 class Form extends React.Component
 {
     static propTypes = {
