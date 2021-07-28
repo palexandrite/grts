@@ -1,10 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Admin\{
-    StatsController,
-    UserController
-};
+use App\Http\Controllers\Admin\AuthenticatedSessionController;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,42 +14,32 @@ use App\Http\Controllers\Admin\{
 |
 */
 
-// Route::get('/', function () {
-//     return view('welcome');
-// });
+Route::get('/', function () {
+    return view('welcome');
+});
 
-Route::get('/', [UserController::class, 'index']);
+// Route::get('/', [UserController::class, 'index']);
 
-require __DIR__.'/auth.php';
+// require __DIR__.'/auth.php';
+
+Route::middleware('guest')->prefix('manager')->group(function() {
+
+    Route::get('/login', [AuthenticatedSessionController::class, 'create'])
+                ->name('login');
+
+    Route::post('/login', [AuthenticatedSessionController::class, 'store']);
+
+});
 
 Route::middleware(['auth'])->prefix('manager')->group(function () {
 
-    Route::middleware('ajax')->group(function() {
+    Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])
+                ->name('logout');
 
-        Route::post('/get-stats', StatsController::class);
+    Route::view('/dashboard', 'admin.dashboard');
 
-        Route::prefix('users')->group(function () {
-
-            Route::post('/', [UserController::class, 'index']);
-
-            Route::post('/create', [UserController::class, 'store']);
-
-            Route::post('/show', [UserController::class, 'edit']);
-
-            Route::post('/update', [UserController::class, 'update']);
-
-            Route::post('/search', [UserController::class, 'search']);
-
-            Route::post('/delete', [UserController::class, 'destroy']);
-
-        });
-
-    });
-
-    Route::view('/dashboard', 'admin.index');
-
-    Route::view('{remaining_path}', 'admin.index')
-        ->where(['remaining_path' => '[\w/]+']);
+    Route::view('{remaining_path}', 'admin.dashboard')
+        ->where(['remaining_path' => '[\w/-]+']);
 
     Route::redirect('/', '/manager/dashboard');
 

@@ -32,8 +32,8 @@ const MENU_SECTIONS = {
             },
         },
         {
-            title: "Sevice Providers", 
-            href: "/manager/service-providers", 
+            title: "Receivers", 
+            href: "/manager/receivers", 
             itemClass: "nav-link", 
             icon: ["fas", "people-arrows"], 
             iconClass: "nav-icon", 
@@ -42,8 +42,8 @@ const MENU_SECTIONS = {
             },
         },
         {
-            title: "Customers", 
-            href: "/manager/customers", 
+            title: "Tippers", 
+            href: "/manager/tippers", 
             itemClass: "nav-link", 
             icon: ["fas", "user-tie"], 
             iconClass: "nav-icon", 
@@ -66,6 +66,36 @@ const MENU_SECTIONS = {
             href: "/manager/users", 
             itemClass: "nav-link", 
             icon: ["fas", "users-cog"], 
+            iconClass: "nav-icon", 
+            badge: {
+                badgeClass: "right badge bg-purple",
+            },
+        },
+        {
+            title: "Edit content", 
+            href: "", 
+            itemClass: "nav-header",
+            icon: [], 
+            iconClass: "", 
+            badge: {
+                badgeClass: "",
+            },
+        },
+        {
+            title: "Emails", 
+            href: "/manager/mails", 
+            itemClass: "nav-link", 
+            icon: ["fas", "feather-alt"], 
+            iconClass: "nav-icon", 
+            badge: {
+                badgeClass: "right badge bg-purple",
+            },
+        },
+        {
+            title: "Push Notifications", 
+            href: "/manager/push-notifications", 
+            itemClass: "nav-link", 
+            icon: ["far", "comment-dots"], 
             iconClass: "nav-icon", 
             badge: {
                 badgeClass: "right badge bg-purple",

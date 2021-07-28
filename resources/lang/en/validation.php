@@ -138,6 +138,9 @@ return [
         'attribute-name' => [
             'rule-name' => 'custom-message',
         ],
+        'receiver[password]' => [
+            'min' => 'The password must be at least 10 characters.',
+        ],
     ],
 
     /*

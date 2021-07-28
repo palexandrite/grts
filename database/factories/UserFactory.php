@@ -33,7 +33,6 @@ class UserFactory extends Factory
             'password' => '$2y$10$Z3vS.mp2xcHfRM8vbm3hTO6Wgv1FVKEtal9IqvvzEAAggreyBCJyG', // password12
             'remember_token' => Str::random(10),
             'status' => User::STATUS_PENDING,
-            'device_name' => 'some-device',
         ];
     }
 

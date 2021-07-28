@@ -2,12 +2,14 @@ import React from "react";
 
 import { Route, Switch, Redirect } from 'react-router-dom';
 
-import Customers from "../../pages/customers";
+import Tippers from "../../pages/tippers";
 import Home from "../../pages/home";
 import Organizations from "../../pages/organizations";
-import ServiceProviders from "../../pages/service-providers";
+import Receivers from "../../pages/receivers";
 import Transactions from "../../pages/transactions";
 import UserPage from "../../pages/users";
+import MailPage from "../../pages/mails";
+import PushNotificationPage from "../../pages/push-notifications";
 import NoMatch from "../../pages/errors/404";
 
 class Content extends React.Component
@@ -16,20 +18,26 @@ class Content extends React.Component
         return (
             <div className="content-wrapper">
                 <Switch>
-                    <Route path="/manager/customers">
-                        <Customers />
+                    <Route path="/manager/tippers">
+                        <Tippers />
                     </Route>
                     <Route path="/manager/organizations">
                         <Organizations />
                     </Route>
-                    <Route path="/manager/service-providers">
-                        <ServiceProviders />
+                    <Route path="/manager/receivers">
+                        <Receivers />
                     </Route>
                     <Route path="/manager/transactions">
                         <Transactions />
                     </Route>
                     <Route path="/manager/users">
                         <UserPage />
+                    </Route>
+                    <Route path="/manager/mails">
+                        <MailPage />
+                    </Route>
+                    <Route path="/manager/push-notifications">
+                        <PushNotificationPage />
                     </Route>
                     {/* <Route path="/manager/policies">
                         <PolicyPage />

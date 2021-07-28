@@ -26,7 +26,6 @@ class User extends Authenticatable
         'email',
         'password',
         'status',
-        'device_name'
     ];
 
     /**
@@ -37,7 +36,6 @@ class User extends Authenticatable
     protected $hidden = [
         'password',
         'remember_token',
-        'device_name',
         'email_verified_at',
         'created_at',
         'updated_at',
@@ -58,8 +56,20 @@ class User extends Authenticatable
      * @var array
      */
     protected $attributes = [
-        'device_name' => 'unknown-device',
         'status' => self::STATUS_PENDING,
+    ];
+
+    /**
+     * The model's table attributes
+     * 
+     * @var array
+     */
+    private $tableAttributes = [
+        'id',
+        'first_name',
+        'last_name',
+        'email',
+        'status'
     ];
 
     /**
@@ -79,13 +89,28 @@ class User extends Authenticatable
     /**
      * Get attribute names
      */
-    public function getAttributeNames()
+    public function getAttributeNamesForTable()
     {
-        $attributeNames = array_keys($this->getAttributes());
+        // $attributeNames = array_keys($this->getAttributes());
         
-        $visibleAttributes = array_values( array_diff($attributeNames, $this->hidden) );
+        // $visibleAttributes = array_values( array_diff($attributeNames, $this->hidden) );
 
-        return array_map('ucfirst', preg_replace('#[_]+#', ' ', $visibleAttributes));
+        // return array_map('ucfirst', preg_replace('#[_]+#', ' ', $visibleAttributes));
+        return array_map('ucfirst', preg_replace('#[_]+#', ' ', $this->tableAttributes));
+    }
+
+    /**
+     * Extract necessary object attributes for the tables
+     */
+    public function getAttributesForTable()
+    {
+        $attributes = [];
+        foreach ($this->attributesToArray() as $key => $value) {
+            if (in_array($key, $this->tableAttributes)) {
+                $attributes[$key] = $value;
+            }
+        }
+        return $attributes;
     }
 
     /**

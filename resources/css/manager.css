@@ -22,7 +22,7 @@ aside .sidebar .nav-header {
     color: rgb(110, 109, 109);
 }
 
-.card .card-header {
+.card .card-header.card-header-with-padding {
     padding-left: 0.2rem;
 }
 
@@ -31,7 +31,7 @@ aside .sidebar .nav-header {
     margin-right: 0.5rem;
 }
 
-.form-check-input {
+.form-check-input.new-switch {
     height: 1.3rem;
 }
 
@@ -50,7 +50,9 @@ a[data-object=expandable] + span {
 }
 
 a[data-object=expandable]:hover > span,
-a[data-object=expandable]:hover + span {
+a[data-object=expandable]:hover + span,
+a[data-object=expandable]:focus > span,
+a[data-object=expandable]:focus + span {
     transform: translateX(0%);
 }
 
@@ -61,7 +63,8 @@ a[data-object=expandable] > span {
     transform: translateX(-60%);
 }
 
-a[data-object=expandable]:hover > span {
+a[data-object=expandable]:hover > span,
+a[data-object=expandable]:focus > span {
     z-index: 1;
 }
 
@@ -89,6 +92,13 @@ a[data-object=expandable] + span {
     top: 5%;
     right: 0;
     z-index: 1034;
+}
+
+/**
+ * Added colors
+*/
+.card-header.gray-card-header {
+  background-color: #dee2e6;
 }
 
 /*!

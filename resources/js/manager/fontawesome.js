@@ -8,6 +8,7 @@ import {
     faBars,
     faChevronLeft,
     faCheck,
+    faFeatherAlt,
     faMoneyBillAlt,
     faPencilAlt,
     faSitemap,
@@ -18,6 +19,8 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 
 import {
+    faCommentDots,
+    faEye,
     faTimesCircle
 } from "@fortawesome/free-regular-svg-icons";
 
@@ -29,6 +32,9 @@ export default function FontAwesomeRegister()
         faBars,
         faChevronLeft,
         faCheck,
+        faCommentDots,
+        faEye,
+        faFeatherAlt,
         faMoneyBillAlt,
         faPencilAlt,
         faPeopleArrows,

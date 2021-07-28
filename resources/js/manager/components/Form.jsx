@@ -52,17 +52,27 @@ class Form extends React.Component
         });
     }
 
+    getCookie( name )
+    {
+        let matches = document.cookie.match(new RegExp(
+            "(?:^|; )" + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + "=([^;]*)"
+        ));
+        return matches ? decodeURIComponent(matches[1]) : undefined;
+    }
+
     componentDidMount()
     {
         if ( this.props.match.params.id ) {
 
-            let url = "/manager/" + this.props.model + "/show",
+            const token = this.getCookie("atoken");
+            let url = "/api/manager/" + this.props.model + "/show",
                 params = {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json",
+                        "Authorization": "Bearer " + token,
                         "X-Requested-With": "XMLHttpRequest",
-                        "X-CSRF-Token": document.querySelector("meta[name=csrf-token]").content
+                        // "X-CSRF-Token": document.querySelector("meta[name=csrf-token]").content
                     },
                     body: JSON.stringify({
                         item: this.props.match.params.id
@@ -124,13 +134,15 @@ class Form extends React.Component
         submitText.classList.toggle("d-none");
         submitSpinner.classList.toggle("d-none");
 
-        let url = "/manager/" + this.props.model + "/" + this.props.url,
+        const token = this.getCookie("atoken");
+        let url = "/api/manager/" + this.props.model + "/" + this.props.url,
             params = {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
+                    "Authorization": "Bearer " + token,
                     "X-Requested-With": "XMLHttpRequest",
-                    "X-CSRF-Token": document.querySelector("meta[name=csrf-token]").content
+                    // "X-CSRF-Token": document.querySelector("meta[name=csrf-token]").content
                 },
                 body: JSON.stringify(this.state.item),
             };

@@ -40,7 +40,7 @@ class Home extends React.Component
                                             <Chart 
                                                 id="users-chart"
                                                 type="line"
-                                                model="user" 
+                                                model="users" 
                                                 url="/get-stats"
                                                 style={ {} } />
 
@@ -61,7 +61,7 @@ class Home extends React.Component
                                             <Chart 
                                                 id="second-users-chart"
                                                 type="line" 
-                                                model="user"
+                                                model="users"
                                                 url="/get-stats"
                                                 style={ {} } />
 

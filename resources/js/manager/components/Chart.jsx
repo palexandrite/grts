@@ -18,6 +18,14 @@ class Chart extends React.Component
         this.handleClickOnYear = this. handleClickOnYear.bind(this);
     }
 
+    getCookie( name )
+    {
+        let matches = document.cookie.match(new RegExp(
+            "(?:^|; )" + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + "=([^;]*)"
+        ));
+        return matches ? decodeURIComponent(matches[1]) : undefined;
+    }
+
     /**
      * Initiate the Chart object
      * @param string timeType It may be: day-of-week, day-of-calendar, months
@@ -25,7 +33,8 @@ class Chart extends React.Component
      */
     initializeChart(timeType, range)
     {
-        const fullUrl = "/manager" + this.props.url;
+        const token = this.getCookie("atoken");
+        const fullUrl = "/api/manager" + this.props.url;
         const node = this.node.current.id;
 
         if (this.state.initchart instanceof Chartjs) {
@@ -38,8 +47,9 @@ class Chart extends React.Component
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
+                "Authorization": "Bearer " + token,
                 "X-Requested-With": "XMLHttpRequest",
-                "X-CSRF-Token": document.querySelector("meta[name=csrf-token]").content
+                // "X-CSRF-Token": document.querySelector("meta[name=csrf-token]").content
             },
             body: JSON.stringify({
                 timeType: timeType, 
@@ -98,6 +108,11 @@ class Chart extends React.Component
             .catch(error => console.error("There was an error!", error));
     }
 
+    componentDidMount() 
+    {
+        this.initializeChart("week", {begin: 7, end: "today"});
+    }
+
     handleClickOnWeek() 
     {
         this.initializeChart("week", {begin: 7, end: "today"});
@@ -111,11 +126,6 @@ class Chart extends React.Component
     handleClickOnYear() 
     {
         this.initializeChart("month", {begin: 12, end: "today"});
-    }
-
-    componentDidMount() 
-    {
-        this.initializeChart("week", {begin: 7, end: "today"});
     }
 
     render() 

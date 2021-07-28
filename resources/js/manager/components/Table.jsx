@@ -28,13 +28,15 @@ class Table extends React.Component
         this.handlePaginationClick = this.handlePaginationClick.bind(this);
         this.handleSearchInputChange = this.handleSearchInputChange.bind(this);
         this.handleClickOnDeleteButton = this.handleClickOnDeleteButton.bind(this);
-        this.fetchUrl = "/manager/" + props.model;
+
+        const token = this.getCookie("atoken");
+        this.fetchUrl = "/api/manager/" + props.model;
         this.fetchParams = {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
+                "Authorization": "Bearer " + token,
                 "X-Requested-With": "XMLHttpRequest",
-                "X-CSRF-Token": document.querySelector("meta[name=csrf-token]").content
             }
         };
         this.toastRef = React.createRef();
@@ -45,6 +47,7 @@ class Table extends React.Component
         fetch( this.fetchUrl, this.fetchParams )
             .then(response => response.json())
             .then(json => {
+                console.dir(json);
                 this.setState({
                     tableBodyItems: this.prepareTableBody(json),
                     tableHeadItems: this.prepareTableHead(json),
@@ -56,6 +59,14 @@ class Table extends React.Component
             .catch(error => console.error("We've got an error on the board!", error));
     }
 
+    getCookie( name )
+    {
+        let matches = document.cookie.match(new RegExp(
+            "(?:^|; )" + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + "=([^;]*)"
+        ));
+        return matches ? decodeURIComponent(matches[1]) : undefined;
+    }
+
     prepareTableHead( $data )
     {
         let { attrnames } = $data;
@@ -64,20 +75,20 @@ class Table extends React.Component
 
     prepareTableBody( $data )
     {
-        let { pagination: { data: items } } = $data;
+        let { items } = $data;
         return items;
     }
 
     getCurrentPage( $data )
     {
-        let { pagination: { current_page: current } } = $data;
-        return current;
+        let { currentPage } = $data;
+        return currentPage;
     }
 
     getLastPage( $data )
     {
-        let { pagination: { last_page: last } } = $data;
-        return last;
+        let { lastPage } = $data;
+        return lastPage;
     }
 
     handlePaginationClick( e )
@@ -139,9 +150,12 @@ class Table extends React.Component
         })();
 
         params.body = JSON.stringify({
-            id: e.target.dataset.id,
+            id: e.currentTarget.dataset.id,
             page: currentPage
         });
+
+        console.dir(url);
+        console.dir(params);
         
         fetch( url, params )
             .then(response => response.json())
@@ -174,7 +188,8 @@ class Table extends React.Component
     renderTable()
     {
         return (
-            <>                
+            <>
+            { this.state.tableBodyItems.length === 0 ? "There is none of records" : null }
             <div className="table-responsive">
                 <table className="table table-hover text-nowrap mb-4">
 

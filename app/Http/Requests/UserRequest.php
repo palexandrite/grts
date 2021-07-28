@@ -34,7 +34,7 @@ class UserRequest extends FormRequest
             'first_name' => ['required', 'string', 'max:255'],
             'last_name' => ['required', 'string', 'max:255'],
             'email' => [
-                'required', 'string', 'email', 'max:255', Rule::unique('users')->ignore($this->id)
+                'required', 'string', 'max:255', 'email', Rule::unique('users')->ignore($this->id)
             ],
             'password' => ['required_without:id', 'nullable', 'string', Password::defaults()],
             'status' => ['required', Rule::in( User::getClientStatuses() )],
