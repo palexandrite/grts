@@ -53,7 +53,7 @@ class CreateDatabase extends Command
    
             if(empty($isDbExist)) {
 
-                DB::connection($driver)->select($statement);
+                DB::connection($driver)->statement($statement);
 
                 $this->info("Database '$name' created with '$driver' connection");
 
