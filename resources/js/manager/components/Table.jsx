@@ -153,9 +153,6 @@ class Table extends React.Component
             id: e.currentTarget.dataset.id,
             page: currentPage
         });
-
-        console.dir(url);
-        console.dir(params);
         
         fetch( url, params )
             .then(response => response.json())
