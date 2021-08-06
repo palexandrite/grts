@@ -70,6 +70,7 @@ class Form extends React.Component
                         "Content-Type": "application/json",
                         "Authorization": "Bearer " + token,
                         "X-Requested-With": "XMLHttpRequest",
+                        "X-CSRF-Token": document.querySelector("meta[name=csrf-token]").content
                     },
                     body: JSON.stringify({
                         item: this.props.match.params.id
@@ -194,6 +195,7 @@ class Form extends React.Component
                     "Content-Type": "application/json",
                     "Authorization": "Bearer " + token,
                     "X-Requested-With": "XMLHttpRequest",
+                    "X-CSRF-Token": document.querySelector("meta[name=csrf-token]").content
                 },
                 body: JSON.stringify(this.state.item),
             };
