@@ -82,7 +82,7 @@ class Organization extends Model
     }
 
     /**
-     * Get attribute names
+     * Get attribute names for tables
      */
     public function getAttributeNamesForTable()
     {

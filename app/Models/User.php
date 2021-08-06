@@ -87,15 +87,18 @@ class User extends Authenticatable
     }
 
     /**
+     * The permissions that belong to the user.
+     */
+    public function permissions()
+    {
+        return $this->belongsToMany(Permission::class);
+    }
+
+    /**
      * Get attribute names
      */
     public function getAttributeNamesForTable()
     {
-        // $attributeNames = array_keys($this->getAttributes());
-        
-        // $visibleAttributes = array_values( array_diff($attributeNames, $this->hidden) );
-
-        // return array_map('ucfirst', preg_replace('#[_]+#', ' ', $visibleAttributes));
         return array_map('ucfirst', preg_replace('#[_]+#', ' ', $this->tableAttributes));
     }
 
