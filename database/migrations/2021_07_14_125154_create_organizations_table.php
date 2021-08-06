@@ -13,11 +13,18 @@ class CreateOrganizationsTable extends Migration
      */
     public function up()
     {
+        Schema::defaultStringLength(191);
         Schema::create('organizations', function (Blueprint $table) {
             $table->id();
             $table->char('name');
+            $table->char('email')->unique();
+            $table->timestamp('email_verified_at')->nullable();
+            $table->string('password');
+            $table->rememberToken();
             $table->unsignedTinyInteger('status');
             $table->timestamps();
+
+            $table->index('name');
         });
     }
 

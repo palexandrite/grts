@@ -4,6 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
+use Illuminate\Validation\Rules\Password;
 use App\Models\Organization;
 
 class OrganizationRequest extends FormRequest
@@ -30,7 +31,11 @@ class OrganizationRequest extends FormRequest
     {
         return [
             'id' => 'integer',
-            'name' => ['required', 'string', 'max:255'],
+            'name' => ['required', 'not_regex:#[^\w\s\.\(\),-]+#', 'max:255'],
+            'email' => [
+                'required', 'string', 'max:255', 'email', Rule::unique('users')->ignore($this->id)
+            ],
+            'password' => ['required_without:id', 'nullable', 'string', Password::defaults()],
             'status' => ['required', Rule::in( Organization::getClientStatuses() )],
         ];
     }
@@ -43,6 +48,7 @@ class OrganizationRequest extends FormRequest
     public function messages()
     {
         return [
+            'password.required_without' => 'The password field is required in case of creation',
             'status.in' => 'The email status is incorrect.',
         ];
     }

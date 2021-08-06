@@ -162,6 +162,26 @@ export default function FormFields()
             },
             {
                 wrapperElement: {
+                    className: "form-check form-switch mb-3",
+                },
+                labelElement: {
+                    htmlFor: "receiver_data[is_kyc_passed]",
+                    className: "form-check-label",
+                    text:  "Is KYC passed?"
+                },
+                inputElement: {
+                    id: "receiver_data[is_kyc_passed]",
+                    name: "receiver_data[is_kyc_passed]",
+                    type: "checkbox",
+                    className: "form-check-input", 
+                    placeholder: ""
+                },
+                beginLayoutWith: "input",
+                value: "",
+                checked: false,
+            },
+            {
+                wrapperElement: {
                     className: "mb-3",
                 },
                 labelElement: {

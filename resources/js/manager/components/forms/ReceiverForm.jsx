@@ -13,9 +13,9 @@ class Form extends React.Component
         history: PropTypes.object.isRequired
     };
 
-    constructor(props)
+    constructor( props )
     {
-        super(props);
+        super( props );
         this.state = {
             errors: null,
             item: {},
@@ -27,7 +27,9 @@ class Form extends React.Component
 
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleChange = this.handleChange.bind(this);
+        this.handleUnauthorized = this.handleUnauthorized.bind(this);
         this.prepareItem = this.prepareItem.bind(this);
+
         this.invalidInputCssClass = "is-invalid";
         this.submitButtonRef = React.createRef();
         this.submitTextRef = React.createRef();
@@ -49,6 +51,13 @@ class Form extends React.Component
         return matches ? decodeURIComponent(matches[1]) : undefined;
     }
 
+    handleUnauthorized()
+    {
+        this.setState({
+            serverErrorMessage: "You became to be unauthorized. Please log in again"
+        });
+    }
+
     componentDidMount()
     {
         if ( this.props.match.params.id ) {
@@ -68,7 +77,15 @@ class Form extends React.Component
                 };
     
             fetch( url, params )
-                .then(response => response.json())
+                .then(response => {
+                    if ( response.status === 401 ) {
+
+                        this.handleUnauthorized();
+
+                    }
+
+                    return response.json();
+                })
                 .then(data => {
                     console.dir(data);
                     this.setState({
@@ -159,6 +176,7 @@ class Form extends React.Component
     handleSubmit( e )
     {
         e.preventDefault();
+        this.setState({errors: null});
 
         let submitButton = this.submitButtonRef.current;
         let submitText = this.submitTextRef.current;
@@ -181,7 +199,16 @@ class Form extends React.Component
             };
 
         fetch( url, params )
-            .then(response => response.json() )
+            .then(response => {
+                if ( response.status == 401 ) {
+
+                    this.handleUnauthorized();
+                    return;
+
+                }
+
+                return response.json();
+            })
             .then(data => {
 
                 console.log('this is a response from the submit');
@@ -340,8 +367,8 @@ class Form extends React.Component
                     <input { ...object.inputElement } value={ object.value } />
                 );
             } else if (
-                object.inputElement.type === "checkbox" ||
-                object.inputElement.type === "radio"
+                object.inputElement.type === "radio" || 
+                object.inputElement.type === "checkbox"
             ) {
                 $inputElement = (
                     <input
@@ -415,11 +442,13 @@ class Form extends React.Component
                     {
                         if ( this.state.item.hasOwnProperty( prop ) ) {
                             let name = value.inputElement.name;
-                            if ( name.match(new RegExp("\\[status\\]$")) !== null ) {
+                            if ( name.match( new RegExp("\\[status\\]$") ) !== null ) {
                                 if ( value.value === this.state.item[ name ] ) {
                                     value.checked = true;
                                     break;
                                 }
+                            } else if ( name.match( new RegExp("\\[is_kyc_passed\\]$") ) !== null ) {
+                                value.checked = this.state.item[ name ];
                             } else if ( name === prop ) {
                                 value.value = this.state.item[ prop ];
                                 break;
@@ -522,7 +551,11 @@ class Form extends React.Component
     */
     render()
     {
-        const { isRendered, successSubmitMessage, serverErrorMessage } = this.state;
+        const {
+            isRendered, 
+            successSubmitMessage, 
+            serverErrorMessage
+        } = this.state;
         const backLinkTo = "/manager/" + this.props.model;
 
         return (

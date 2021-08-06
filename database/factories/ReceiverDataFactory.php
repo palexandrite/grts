@@ -24,6 +24,7 @@ class ReceiverDataFactory extends Factory
     {
         return [
             'receiver_id' => Receiver::factory(),
+            'is_kyc_passed' => true,
             'phone_number' => $this->faker->e164PhoneNumber(),
             'ssn' => $this->faker->randomNumber(4, true),
             'birth_date' => $this->faker->date(),

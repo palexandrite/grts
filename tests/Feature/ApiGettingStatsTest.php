@@ -5,31 +5,29 @@ namespace Tests\Feature;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
-use Illuminate\Support\Facades\Crypt;
+use Laravel\Sanctum\Sanctum;
+use App\Models\User;
 
 class ApiGettingStatsTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function test_registration_screen_can_be_rendered()
+    public function test_all_stats_can_be_gotten_by_a_week()
     {
-        $response = $this->get('/manager/register');
+        Sanctum::actingAs(User::factory()->create(), ['*']);
 
-        $response->assertStatus(200);
-    }
-
-    public function test_new_users_can_register()
-    {
-        $response = $this->post('/manager/register', [
-            'first_name' => 'Test',
-            'last_name' => 'User',
-            'email' => 'test@example.com',
-            'password' => 'password',
-            'password_confirmation' => 'password',
-            'device_name' => Crypt::encryptString('test-device'),
+        $response = $this->withHeaders([
+            'Accept' => 'application/json',
+            'X-Requested-With' => 'XMLHttpRequest',
+        ])->post('/api/manager/get-stats', [
+            'timeType' => 'week', 
+            'range' => [
+                'begin' => 7, 
+                'end' => 'today'
+            ],
+            'model' => 'users',
         ]);
 
-        $this->assertAuthenticated();
-        $response->assertRedirect(RouteServiceProvider::HOME);
+        $response->assertStatus(200);
     }
 }

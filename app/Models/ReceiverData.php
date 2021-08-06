@@ -9,6 +9,9 @@ class ReceiverData extends Model
 {
     use HasFactory;
 
+    const KYC_IS_NOT_PASSED = false;
+    const KYC_IS_PASSED = true;
+
     /**
      * The attributes that are mass assignable.
      *
@@ -16,6 +19,7 @@ class ReceiverData extends Model
      */
     protected $fillable = [
         'receiver_id',
+        'is_kyc_passed',
         'phone_number',
         'ssn',
         'birth_date',
@@ -37,6 +41,18 @@ class ReceiverData extends Model
         'created_at',
         'updated_at',
     ];
+
+    /**
+     * The Accessor for the 'is_kyc_passed' attribute
+     */
+    public function getIsKycPassedAttribute($value)
+    {
+        if ($value) {
+            return self::KYC_IS_PASSED;
+        }
+
+        return self::KYC_IS_NOT_PASSED;
+    }
 
     /**
      * The owner receiver of the data

@@ -9,7 +9,7 @@ class Organization extends Model
 {
     use HasFactory;
 
-    const STATUS_INACTIVE = 0;
+    const STATUS_INACTIVE = 10;
     const STATUS_ACTIVE = 200;
 
     /**
@@ -19,6 +19,8 @@ class Organization extends Model
      */
     protected $fillable = [
         'name',
+        'email',
+        'password',
         'status'
     ];
 
@@ -28,8 +30,20 @@ class Organization extends Model
      * @var array
      */
     protected $hidden = [
+        'password',
+        'remember_token',
+        'email_verified_at',
         'created_at',
         'updated_at',
+    ];
+
+    /**
+     * The attributes that should be cast to native types.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'email_verified_at' => 'datetime',
     ];
 
     /**
@@ -49,6 +63,7 @@ class Organization extends Model
     private $tableAttributes = [
         'id',
         'name',
+        'email',
         'status'
     ];
 
@@ -71,11 +86,6 @@ class Organization extends Model
      */
     public function getAttributeNamesForTable()
     {
-        // $attributeNames = array_keys($this->getAttributes());
-        
-        // $visibleAttributes = array_values( array_diff($attributeNames, $this->hidden) );
-
-        // return array_map('ucfirst', preg_replace('#[_]+#', ' ', $visibleAttributes));
         return array_map('ucfirst', preg_replace('#[_]+#', ' ', $this->tableAttributes));
     }
 
@@ -112,6 +122,6 @@ class Organization extends Model
      */
     public static function getClientStatuses()
     {
-        return ['Active', 'Inactive', 'Undefined', true, false];
+        return ['Active', 'Inactive', true, false];
     }
 }

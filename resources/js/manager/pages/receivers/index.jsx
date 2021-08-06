@@ -4,6 +4,7 @@ import { Link, Route, Switch } from "react-router-dom";
 import Form from "../../components/forms/ReceiverForm";
 import Table from "../../components/Table";
 import NoMatch from "../errors/404";
+import OverviewPage from "./overview";
 
 import FormFields from "./FormFields";
 
@@ -55,6 +56,9 @@ class ServiceProviders extends React.Component
                                 url="update"
                                 fields={ FormFields() }
                                 currentText="Edit the receiver" />
+                        </Route>
+                        <Route exact path="/manager/receivers/overview/:id">
+                            <OverviewPage />
                         </Route>
                         <Route exact path="/manager/receivers">
                             <Table model="receivers" />

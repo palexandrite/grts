@@ -18,10 +18,6 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-// Route::get('/', [UserController::class, 'index']);
-
-// require __DIR__.'/auth.php';
-
 Route::middleware('guest')->prefix('manager')->group(function() {
 
     Route::get('/login', [AuthenticatedSessionController::class, 'create'])
@@ -37,6 +33,8 @@ Route::middleware(['auth'])->prefix('manager')->group(function () {
                 ->name('logout');
 
     Route::view('/dashboard', 'admin.dashboard');
+
+    Route::view('/api-mobile-docs', 'admin.api_mobile_docs');
 
     Route::view('{remaining_path}', 'admin.dashboard')
         ->where(['remaining_path' => '[\w/-]+']);

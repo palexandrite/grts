@@ -34,7 +34,8 @@ class ReceiverRequest extends FormRequest
         return [
             'receiver[id]' => 'integer',
             'receiver[email]' => [
-                'required', 'string', 'max:255', 'email', Rule::unique('receivers', 'email')->ignore($this->$id)
+                'required', 'string', 'max:255', 'email', 
+                Rule::unique('receivers', 'email')->ignore($this->$id)
             ],
             'receiver[first_name]' => ['required', 'string', 'max:255'],
             'receiver[last_name]' => ['required', 'string', 'max:255'],
@@ -44,25 +45,38 @@ class ReceiverRequest extends FormRequest
             'receiver[status]' => ['required', Rule::in( Receiver::getClientStatuses() )],
 
             'bank_account[id]' => 'integer',
-            'bank_account[account_number]' => ['required', 'numeric'],
-            'bank_account[bank_code]' => ['required', 'numeric'],
+            'bank_account[account_number]' => [
+                'required_with:bank_account[bank_code]', 'nullable', 'digits_between:1,30'
+            ],
+            'bank_account[bank_code]' => [
+                'required_with:bank_account[account_number]', 'nullable', 'alpha_num'
+            ],
 
             'credit_card[id]' => 'integer',
-            'credit_card[expired_date]' => ['required', 'regex:#[0-9]{2}/[0-9]{2}#'],
-            'credit_card[number]' => ['required', 'numeric'],
-            'credit_card[secret_code]' => ['required', 'numeric', 'max:9999'],
-            'credit_card[zip_code]' => ['required', 'string', 'max:255'],
+            'credit_card[expired_date]' => [
+                'required_with:credit_card[number],credit_card[secret_code],credit_card[zip_code]', 'nullable', 'regex:#[0-9]{2}/[0-9]{2}#'
+            ],
+            'credit_card[number]' => [
+                'required_with:credit_card[expired_date],credit_card[secret_code],credit_card[zip_code]', 'nullable', 'digits_between:1,20'
+            ],
+            'credit_card[secret_code]' => [
+                'required_with:credit_card[number],credit_card[expired_date],credit_card[zip_code]', 'nullable', 'digits_between:1,4'
+            ],
+            'credit_card[zip_code]' => [
+                'required_with:credit_card[number],credit_card[secret_code],credit_card[expired_date]', 'nullable', 'alpha_dash', 'max:255'
+            ],
 
             'receiver_data[id]' => 'integer',
-            'receiver_data[birth_date]' => ['required', 'string', 'max:255', 'date_format:Y-m-d'],
-            'receiver_data[phone_number]' => ['required', 'string', 'max:255'],
-            'receiver_data[postal_code]' => ['required', 'string', 'max:255'],
-            'receiver_data[ssn]' => ['required', 'numeric', 'max:9999'],
-            'receiver_data[address]' => ['required', 'string', 'max:255'],
-            'receiver_data[address_2]' => ['required', 'string', 'max:255'],
-            'receiver_data[state]' => ['required', 'string', 'max:255'],
-            'receiver_data[city]' => ['required', 'string', 'max:255'],
-            'receiver_data[country]' => ['required', 'string', 'max:255'],
+            'receiver_data[is_kyc_passed]' => ['required', 'boolean'],
+            'receiver_data[birth_date]' => ['required', 'date_format:Y-m-d', 'max:255'],
+            'receiver_data[phone_number]' => ['required', 'not_regex:#[^\w\s\(\)+-]+#', 'max:255'],
+            'receiver_data[postal_code]' => ['required', 'alpha_dash', 'max:255'],
+            'receiver_data[ssn]' => ['required', 'digits:4'],
+            'receiver_data[address]' => ['required', 'not_regex:#[^\w\s\.\(\),-]+#', 'max:255'],
+            'receiver_data[address_2]' => ['required', 'not_regex:#[^\w\s\.\(\),-]+#', 'max:255'],
+            'receiver_data[state]' => ['required', 'not_regex:#[^\w\s-]+#', 'max:255'],
+            'receiver_data[city]' => ['required', 'not_regex:#[^\w\s-]+#', 'max:255'],
+            'receiver_data[country]' => ['required', 'not_regex:#[^\w\s-]+#', 'max:255'],
         ];
     }
 
@@ -112,8 +126,13 @@ class ReceiverRequest extends FormRequest
         return [
             'receiver[password].required_without' => 'The :attribute field is required in case of creation',
             'receiver[status].in' => 'The :attribute is incorrect',
-            'credit_card[secret_code].max' => 'The :attribute must not have then 4 characters.',
-            'receiver_data[ssn].max' => 'The :attribute must not have then 4 characters.',
+
+            'credit_card[expired_date].required_with' => 'The :attribute is required in case you want to add a credit card',
+            'credit_card[number].required_with' => 'The :attribute is required in case you want to add a credit card',
+            'credit_card[secret_code].required_with' => 'The :attribute is required in case you want to add a credit card',
+            'credit_card[zip_code].required_with' => 'The :attribute is required in case you want to add a credit card',
+
+            'receiver_data[birth_date].date_format' => 'The :attribute does not match the date format',
         ];
     }
 }

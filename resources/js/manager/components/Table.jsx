@@ -176,7 +176,7 @@ class Table extends React.Component
                     }, 10000);
                     
                 } else if ( json.error ) {
-                    this.setState({errorMessage: data.error});
+                    this.setState({errorMessage: json.error});
                 }
             })
             .catch(error => console.error("We've got an error on the board!", error));
@@ -186,7 +186,10 @@ class Table extends React.Component
     {
         return (
             <>
-            { this.state.tableBodyItems.length === 0 ? "There is none of records" : null }
+            { 
+                this.state.tableBodyItems && this.state.tableBodyItems.length === 0 
+                ? "There is none of records" : null 
+            }
             <div className="table-responsive">
                 <table className="table table-hover text-nowrap mb-4">
 

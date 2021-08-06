@@ -46,8 +46,8 @@
                         <label for="password" class="fw-bold fs-7">{{ __('Password') }}</label>
                     </div>
 
-                    <div class="checkbox mb-3">
-                        <label>
+                    <div class="d-flex justify-content-between">
+                        <label class="pt-1">
                             <input 
                                 type="checkbox" 
                                 class="form-check-input"
@@ -55,10 +55,11 @@
                             > 
                             {{ __('Remember me') }}
                         </label>
+
+                        <button class="btn btn-primary" type="submit">
+                            {{ __('Sign in') }}
+                        </button>
                     </div>
-                    <button class="w-100 btn btn-lg btn-primary" type="submit">
-                        {{ __('Sign in') }}
-                    </button>
                 </div>
             </div>
             

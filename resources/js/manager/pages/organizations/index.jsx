@@ -2,8 +2,8 @@ import React from "react";
 import { Link, Route, Switch } from "react-router-dom";
 
 import Form from "../../components/forms/OrgForm";
-import Table from "../../components/Table";
 import NoMatch from "../errors/404";
+import Table from "../../components/Table";
 
 import FormFields from "./FormFields";
 

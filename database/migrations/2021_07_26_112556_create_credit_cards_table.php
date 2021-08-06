@@ -16,10 +16,10 @@ class CreateCreditCardsTable extends Migration
         Schema::create('credit_cards', function (Blueprint $table) {
             $table->id();
             $table->morphs('cardable');
-            $table->string('number');
-            $table->char('expired_date', 5);
-            $table->unsignedInteger('secret_code');
-            $table->char('zip_code', 30);
+            $table->string('number')->nullable();
+            $table->char('expired_date', 5)->nullable();
+            $table->unsignedInteger('secret_code')->nullable();
+            $table->char('zip_code', 30)->nullable();
             $table->timestamps();
         });
     }

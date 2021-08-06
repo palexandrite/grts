@@ -48,13 +48,7 @@ class ReceiverController extends Controller
         // Return the validated form data
         $validated = $request->validated();
 
-        $validatedString = '';
-
-        foreach ($validated as $key => $value) {
-            $validatedString .= $key .'='. $value .'&';
-        }
-
-        parse_str($validatedString, $validatedArray);
+        $validatedArray = $this->getValidatedArray($validated);
 
         try {
 
@@ -72,17 +66,22 @@ class ReceiverController extends Controller
 
             $receiverDataFields = $validatedArray['receiver_data'];
             $receiverDataFields['receiver_id'] = $receiver->id;
-            $receiverData = ReceiverData::create($receiverDataFields);
+            ReceiverData::create($receiverDataFields);
 
             $creditCardFields = $validatedArray['credit_card'];
             $creditCardFields['cardable_id'] = $receiver->id;
             $creditCardFields['cardable_type'] = Receiver::class;
-            $creditCard = CreditCard::create($creditCardFields);
+
+            if (empty($creditCardFields['secret_code'])) {
+                $creditCardFields['secret_code'] = null;
+            }
+
+            CreditCard::create($creditCardFields);
 
             $bankAccountFields = $validatedArray['bank_account'];
             $bankAccountFields['accountable_id'] = $receiver->id;
             $bankAccountFields['accountable_type'] = Receiver::class;
-            $bankAccount = BankAccount::create($bankAccountFields);
+            BankAccount::create($bankAccountFields);
 
             $responseCode = Response::HTTP_OK;
             $response = ['success' => 'Passed data were successfully saved'];
@@ -94,7 +93,7 @@ class ReceiverController extends Controller
             DB::rollBack();
             $errorMessage = $e->getMessage();
             $responseCode = Response::HTTP_INTERNAL_SERVER_ERROR;
-            $response = ['serverError' => "I have got some error with the next message: $errorMessage. Mr. Server"];
+            $response = ['serverError' => "The server encountered with some error and the error message is: $errorMessage."];
 
         }
 
@@ -102,9 +101,9 @@ class ReceiverController extends Controller
     }
 
     /**
-     * Show the specified receiver
+     * Display the specified receiver for an update and an overview
      */
-    public function edit(Request $request)
+    public function show(Request $request)
     {
         $id = $request->post('item');
         $receiver = Receiver::with(['receiverData', 'creditCard', 'bankAccount'])->find($id);
@@ -120,44 +119,46 @@ class ReceiverController extends Controller
         // Return the validated form data
         $validated = $request->validated();
 
-        $validatedString = '';
+        $validatedArray = $this->getValidatedArray($validated);
 
-        foreach ($validated as $key => $value) {
-            $validatedString .= $key .'='. $value .'&';
-        }
+        try {
 
-        parse_str($validatedString, $validatedArray);
+            DB::beginTransaction();
 
-        $response = [];
+            $receiverFields = $validatedArray['receiver'];
 
-        $receiverFields = $validatedArray['receiver'];
+            $receiverFields['status'] = Receiver::setStatus($receiverFields['status']);
 
-        $receiverFields['status'] = Receiver::setStatus($receiverFields['status']);
+            if (!empty($receiverFields['password'])) {
+                $receiverFields['password'] = Hash::make($receiverFields['password']);
+            }
 
-        if (!empty($receiverFields['password'])) {
-            $receiverFields['password'] = Hash::make($receiverFields['password']);
-        }
+            Receiver::where(['id' => $receiverFields['id']])->update($receiverFields);
 
-        $receiver = Receiver::where(['id' => $receiverFields['id']])->update($receiverFields);
+            ReceiverData::where([
+                'id' => $validatedArray['receiver_data']['id']
+            ])->update($validatedArray['receiver_data']);
 
-        $receiverData = ReceiverData::where([
-            'id' => $validatedArray['receiver_data']['id']
-        ])->update($validatedArray['receiver_data']);
+            CreditCard::where([
+                'id' => $validatedArray['credit_card']['id']
+            ])->update($validatedArray['credit_card']);
 
-        $creditCard = CreditCard::where([
-            'id' => $validatedArray['credit_card']['id']
-        ])->update($validatedArray['credit_card']);
+            BankAccount::where([
+                'id' => $validatedArray['bank_account']['id']
+            ])->update($validatedArray['bank_account']);
 
-        $bankAccount = BankAccount::where([
-            'id' => $validatedArray['bank_account']['id']
-        ])->update($validatedArray['bank_account']);
-
-        if (!$receiver || !$receiverData || !$creditCard || !$bankAccount) {
-            $responseCode = Response::HTTP_INTERNAL_SERVER_ERROR;
-            $response = ['serverError' => 'Something went wrong on my side. Mr. Server'];
-        } else {
             $responseCode = Response::HTTP_OK;
             $response = ['success' => 'Passed data were successfully saved'];
+
+            DB::commit();
+
+        } catch (\Exception $e) {
+
+            DB::rollBack();
+            $errorMessage = $e->getMessage();
+            $responseCode = Response::HTTP_INTERNAL_SERVER_ERROR;
+            $response = ['serverError' => "The server encountered with some error and the error message is: $errorMessage."];
+
         }
 
         return response()->json($response, $responseCode);
@@ -229,5 +230,23 @@ class ReceiverController extends Controller
     {
         $model = $collection->first();
         return $model ? $model->getAttributeNamesForTable() : null;
+    }
+
+    /**
+     * Extract the true array from the request validated array
+     */
+    private function getValidatedArray($array) : array
+    {
+        $validatedString = '';
+
+        foreach ($array as $key => $value) {
+            $validatedString .= $key .'='. $value .'&';
+        }
+
+        parse_str($validatedString, $validatedArray);
+
+        $validatedArray['receiver_data']['is_kyc_passed'] = (bool) $validatedArray['receiver_data']['is_kyc_passed'];
+
+        return $validatedArray;
     }
 }

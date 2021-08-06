@@ -60,6 +60,13 @@ class Form extends React.Component
         return matches ? decodeURIComponent(matches[1]) : undefined;
     }
 
+    handleUnauthorized()
+    {
+        this.setState({
+            serverErrorMessage: "You became to be unauthorized. Please log in again"
+        });
+    }
+
     componentDidMount()
     {
         if ( this.props.match.params.id ) {
@@ -80,7 +87,15 @@ class Form extends React.Component
                 };
     
             fetch( url, params )
-                .then(response => response.json())
+                .then(response => {
+                    if ( response.status === 401 ) {
+
+                        this.handleUnauthorized();
+
+                    }
+
+                    return response.json();
+                })
                 .then(data => {
                     this.setState({
                         item: this.prepareItem( data ),
@@ -148,7 +163,15 @@ class Form extends React.Component
             };
 
         fetch( url, params )
-            .then(response => response.json() )
+            .then(response => {
+                if ( response.status === 401 ) {
+
+                    this.handleUnauthorized();
+
+                }
+
+                return response.json();
+            })
             .then(data => {
 
                 console.log('this is a response');
@@ -417,7 +440,7 @@ class Form extends React.Component
 
         return (
             <div className="card">
-                <div className="card-header">
+                <div className="card-header card-header-with-padding">
                     <Link 
                         to={ linkTo }
                         className="btn btn-link"

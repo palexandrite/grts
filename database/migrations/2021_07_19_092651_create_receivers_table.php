@@ -13,11 +13,12 @@ class CreateReceiversTable extends Migration
      */
     public function up()
     {
+        Schema::defaultStringLength(191);
         Schema::create('receivers', function (Blueprint $table) {
             $table->id();
-            $table->char('first_name', 255);
-            $table->char('last_name', 255);
-            $table->char('email', 255)->unique();
+            $table->char('first_name');
+            $table->char('last_name');
+            $table->char('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->rememberToken();

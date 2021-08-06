@@ -49,7 +49,6 @@ class Chart extends React.Component
                 "Content-Type": "application/json",
                 "Authorization": "Bearer " + token,
                 "X-Requested-With": "XMLHttpRequest",
-                // "X-CSRF-Token": document.querySelector("meta[name=csrf-token]").content
             },
             body: JSON.stringify({
                 timeType: timeType, 

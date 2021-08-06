@@ -12,7 +12,7 @@ class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
 
-    const STATUS_PENDING = 1;
+    const STATUS_PENDING = 10;
     const STATUS_APPROVED = 200;
 
     /**
@@ -132,6 +132,6 @@ class User extends Authenticatable
      */
     public static function getClientStatuses()
     {
-        return ['Active', 'Pending', 'Undefined', true, false];
+        return ['Active', 'Pending', true, false];
     }
 }

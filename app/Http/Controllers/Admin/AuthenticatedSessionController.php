@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Auth\LoginRequest;
+use App\Http\Requests\LoginRequest;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\{
@@ -20,7 +20,11 @@ class AuthenticatedSessionController extends Controller
      */
     public function create()
     {
-        return view('admin.login');
+        /**
+         * We should destroy the 'atoken' here also 
+         * because the session may expired before expiration of the token
+         */
+        return response()->view('admin.login')->cookie(Cookie::forget('atoken'));
     }
 
     /**
@@ -39,16 +43,9 @@ class AuthenticatedSessionController extends Controller
 
         $token = $request->user()->createToken('fully-fledged-token')->plainTextToken;
 
-        return redirect()->intended(RouteServiceProvider::HOME)
-            ->cookie(
-                'atoken',
-                $token,
-                config('session.lifetime', 120),
-                '/',
-                '',
-                false,
-                false
-            );
+        $cookie = cookie('atoken', $token, 60 * 24 * 120, '', '', false, false);
+
+        return redirect()->intended(RouteServiceProvider::HOME)->cookie($cookie);
     }
 
     /**

@@ -18,7 +18,7 @@ class MobileApiAuthenticationTest extends TestCase
 
         Sanctum::actingAs( $user, ['*'] );
 
-        $response = $this->post('/api/login', [
+        $response = $this->post('/api/mobile/login', [
             'email' => $user->email,
             'password' => 'password12',
             'device_name' => Crypt::encryptString('iPhone'),
@@ -33,7 +33,7 @@ class MobileApiAuthenticationTest extends TestCase
 
         Sanctum::actingAs( $user, ['*'] );
 
-        $response = $this->post('/api/login', [
+        $response = $this->post('/api/mobile/login', [
             'email' => $user->email,
             'password' => 'wrong-password',
             'device_name' => Crypt::encryptString('iPhone'),
@@ -49,7 +49,7 @@ class MobileApiAuthenticationTest extends TestCase
 
         Sanctum::actingAs( $user, ['*'] );
 
-        $response = $this->post('/api/login', [
+        $response = $this->post('/api/mobile/login', [
             'email' => $user->email,
             'password' => 'password12',
             'device_name' => 'iPhone',

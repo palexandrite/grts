@@ -115,24 +115,19 @@ class Navbar extends React.Component
                             </a>
                         </li>
                         <li className="nav-item">
-                            <a 
-                                href="/" 
-                                className="nav-link d-none d-md-block" 
-                                target="_blank"
-                            >
+                            <a href="/" className="nav-link d-none d-md-block" target="_blank">
                                 The website home
                             </a>
-                            <a 
-                                href="/" 
-                                className="nav-link d-md-none" 
-                                target="_blank"
-                            >
+                            <a href="/" className="nav-link d-md-none" target="_blank">
                                 Website
                             </a>
                         </li>
                         <li className="nav-item">
-                            <a href="/telescope" className="nav-link" target="_blank">
+                            <a href="/telescope" className="nav-link d-none d-md-block" target="_blank">
                                 Laravel Telescope
+                            </a>
+                            <a href="/telescope" className="nav-link d-md-none" target="_blank">
+                                Telescope
                             </a>
                         </li>
                     </ul>

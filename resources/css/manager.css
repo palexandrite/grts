@@ -43,33 +43,44 @@ a[data-object=expandable] {
     vertical-align: inherit;
 }
 
-a[data-object=expandable] > span,
-a[data-object=expandable] + span {
-    display: inline-block;
-    transition: all .3s ease-in-out;
-}
-
-a[data-object=expandable]:hover > span,
-a[data-object=expandable]:hover + span,
-a[data-object=expandable]:focus > span,
-a[data-object=expandable]:focus + span {
-    transform: translateX(0%);
-}
-
 a[data-object=expandable] > span {
-    position: relative;
-    z-index: -1;
     padding-left: 0.5rem;
-    transform: translateX(-60%);
-}
-
-a[data-object=expandable]:hover > span,
-a[data-object=expandable]:focus > span {
-    z-index: 1;
 }
 
 a[data-object=expandable] + span {
-    transform: translateX(-80px);
+    display: block;
+    padding-left: 15px;
+}
+
+@media (min-width: 1200px) {
+    a[data-object=expandable] > span,
+    a[data-object=expandable] + span {
+        display: inline-block;
+        transition: all .3s ease-in-out;
+    }
+    
+    a[data-object=expandable]:hover > span,
+    a[data-object=expandable]:hover + span,
+    a[data-object=expandable]:focus > span,
+    a[data-object=expandable]:focus + span {
+        transform: translateX(0%);
+    }
+    
+    a[data-object=expandable] > span {
+        position: relative;
+        z-index: -1;
+        transform: translateX(-60%);
+    }
+    
+    a[data-object=expandable]:hover > span,
+    a[data-object=expandable]:focus > span {
+        z-index: 1;
+    }
+    
+    a[data-object=expandable] + span {
+        border-left: 1px solid #dee2e6;
+        transform: translateX(-80px);
+    }
 }
 
 @media (max-width: 278px) {
@@ -99,6 +110,22 @@ a[data-object=expandable] + span {
 */
 .card-header.gray-card-header {
   background-color: #dee2e6;
+}
+
+/**
+ * Other
+*/
+.widget-user .widget-user-header.little {
+    height: 90px;
+}
+
+.widget-user .widget-user-header.little + .widget-user-image {
+    top: 50px;
+}
+
+.widget-user .widget-user-header.bg-sidebar-like {
+  color: #fff;
+  background-color: #41474c;
 }
 
 /*!

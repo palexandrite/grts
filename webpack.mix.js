@@ -18,7 +18,8 @@ const mix = require('laravel-mix');
 
 mix.setPublicPath("./storage/app/public/");
 
-// The React App
+// The Admin React App
 mix.js("./resources/js/manager/manager.jsx", "js").react();
 
-// mix.js("./resources/js/chart.js", "js");
+// The Api Docs UI
+mix.js("./resources/js/api-mobile-documentor/api-mobile-documentor.jsx", "js").react();

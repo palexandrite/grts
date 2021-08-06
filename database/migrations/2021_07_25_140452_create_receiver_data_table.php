@@ -13,9 +13,11 @@ class CreateReceiverDataTable extends Migration
      */
     public function up()
     {
+        Schema::defaultStringLength(255);
         Schema::create('receiver_data', function (Blueprint $table) {
             $table->id();
             $table->bigInteger('receiver_id');
+            $table->boolean('is_kyc_passed');
             $table->char('phone_number');
             $table->smallInteger('ssn')->unsigned();
             $table->date('birth_date');

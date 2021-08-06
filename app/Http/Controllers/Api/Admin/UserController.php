@@ -151,6 +151,5 @@ class UserController extends Controller
     {
         $model = $collection->first();
         return $model ? $model->getAttributeNamesForTable() : null;
-        // return $model->getAttributeNames();
     }
 }

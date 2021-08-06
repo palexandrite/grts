@@ -49,6 +49,13 @@ class Form extends React.Component
         return matches ? decodeURIComponent(matches[1]) : undefined;
     }
 
+    handleUnauthorized()
+    {
+        this.setState({
+            serverErrorMessage: "You became to be unauthorized. Please log in again"
+        });
+    }
+
     componentDidMount()
     {
         if ( this.props.match.params.id ) {
@@ -61,7 +68,6 @@ class Form extends React.Component
                         "Content-Type": "application/json",
                         "Authorization": "Bearer " + token,
                         "X-Requested-With": "XMLHttpRequest",
-                        // "X-CSRF-Token": document.querySelector("meta[name=csrf-token]").content
                     },
                     body: JSON.stringify({
                         item: this.props.match.params.id
@@ -69,7 +75,15 @@ class Form extends React.Component
                 };
     
             fetch( url, params )
-                .then(response => response.json())
+                .then(response => {
+                    if ( response.status === 401 ) {
+
+                        this.handleUnauthorized();
+
+                    }
+
+                    return response.json();
+                })
                 .then(data => {
                     this.setState({
                         item: this.prepareItem( data ),
@@ -114,6 +128,7 @@ class Form extends React.Component
     handleSubmit( e )
     {
         e.preventDefault();
+        this.setState({errors: null});
 
         let submitButton = this.submitButtonRef.current;
         let submitText = this.submitTextRef.current;
@@ -136,7 +151,15 @@ class Form extends React.Component
             };
 
         fetch( url, params )
-            .then(response => response.json() )
+            .then(response => {
+                if ( response.status === 401 ) {
+
+                    this.handleUnauthorized();
+
+                }
+
+                return response.json();
+            })
             .then(data => {
 
                 console.log('this is a response');
@@ -374,7 +397,7 @@ class Form extends React.Component
         return (
             <form onSubmit={ this.handleSubmit }>
                 <div className="card">
-                    <div className="card-header">
+                    <div className="card-header card-header-with-padding">
                         <div className="d-flex justify-content-between">
                             <div>
                                 <Link 

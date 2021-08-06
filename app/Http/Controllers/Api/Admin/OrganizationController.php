@@ -114,9 +114,17 @@ class OrganizationController extends Controller
             /**
              * @return Illuminate\Pagination\LengthAwarePaginator
              */
-            $response['pagination'] = Organization::paginate(15);
-            
-            $response['success'] = 'It is successfully deleted';
+            $pagination = Organization::paginate(15);
+
+            $response = [
+                'items' => $pagination->getCollection()->map(function($item) {
+                    return $item->getAttributesForTable();
+                }),
+                'currentPage' => $pagination->currentPage(),
+                'lastPage' => $pagination->lastPage(),
+                'attrnames' => $this->getAttributesAsKeys($pagination->getCollection()),
+                'success' => 'It is successfully deleted',
+            ];
 
         } else {
             $response['error'] = 'None of the items was deleted';
@@ -144,6 +152,5 @@ class OrganizationController extends Controller
     {
         $model = $collection->first();
         return $model ? $model->getAttributeNamesForTable() : null;
-        // return $model->getAttributeNames();
     }
 }

@@ -24,18 +24,22 @@ use App\Http\Controllers\Api\Admin\{
 /**
  * API routes for cells
  */
-Route::post('/register', [AuthController::class, 'register']);
+Route::prefix('mobile')->group(function() {
 
-Route::middleware('auth:sanctum')->group(function() {
+    Route::post('/register', [AuthController::class, 'register']);
 
-    Route::post('/login', [AuthController::class, 'login']);
+    Route::middleware('auth:sanctum')->group(function() {
+
+        Route::post('/login', [AuthController::class, 'login']);
+
+    });
 
 });
 
 /**
  * API routes for the Superadmin
  */
-Route::middleware(['auth:sanctum', 'ajax'])->prefix('/manager')->group(function() {
+Route::middleware(['auth:sanctum', 'ajax'])->prefix('manager')->group(function() {
 
     Route::post('/get-stats', StatsController::class);
     
@@ -77,7 +81,7 @@ Route::middleware(['auth:sanctum', 'ajax'])->prefix('/manager')->group(function(
 
         Route::post('/create', [ReceiverController::class, 'store']);
 
-        Route::post('/show', [ReceiverController::class, 'edit']);
+        Route::post('/show', [ReceiverController::class, 'show']);
 
         Route::post('/update', [ReceiverController::class, 'update']);
 
