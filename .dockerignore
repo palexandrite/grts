@@ -1,4 +1,4 @@
 .gitlab-ci.yml
-vendor
+*/vendor*
 Dockerfile
 Docekrfile_nginx
