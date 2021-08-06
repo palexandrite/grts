@@ -47,9 +47,13 @@ dbupgrade-master:
   only:
     - master
   script:
-  #  - docker container run -i --rm --name ${IMGNAMEPROD}_DB_upgrade --network $DB_NETWORK $IMGNAMEPROD php artisan migrate:fresh
-    - docker container run -i --rm --name ${IMGNAMEPROD}_DB_upgrade --network $DB_NETWORK $IMGNAMEPROD php artisan migrate
-    - docker container run -i --rm --name ${IMGNAMEPROD}_DB_upgrade --network $DB_NETWORK $IMGNAMEPROD php artisan db:seed
+    - docker container run -i --rm --name ${IMGNAMEPROD}_DB_upgrade --network $DB_NETWORK $IMGNAMEPROD php artisan db:wipe
+    - docker container run -i --rm --name ${IMGNAMEPROD}_DB_upgrade --network $DB_NETWORK $IMGNAMEPROD php artisan migrate --seed
+    - docker container run -i --rm --name ${IMGNAMEPROD}_DB_upgrade --network $DB_NETWORK $IMGNAMEPROD php artisan optimize:clear --no-ansi
+    - docker container run -i --rm --name ${IMGNAMEPROD}_DB_upgrade --network $DB_NETWORK $IMGNAMEPROD php artisan cache:clear
+    - docker container run -i --rm --name ${IMGNAMEPROD}_DB_upgrade --network $DB_NETWORK $IMGNAMEPROD php artisan route:clear
+    - docker container run -i --rm --name ${IMGNAMEPROD}_DB_upgrade --network $DB_NETWORK $IMGNAMEPROD php artisan view:clear
+    - docker container run -i --rm --name ${IMGNAMEPROD}_DB_upgrade --network $DB_NETWORK $IMGNAMEPROD php artisan config:clear
 
 deploy-master:
   stage: deploy
