@@ -24,7 +24,7 @@ RUN docker-php-ext-install pdo_mysql mbstring zip exif pcntl
 # Install composer
 COPY composer.lock composer.json /var/www/
 COPY artisan /var/www/
-COPY ./boootstrap /var/www/
+COPY ./bootstrap /var/www/
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
 RUN chmod -R 777 /var/www
