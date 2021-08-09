@@ -27,11 +27,9 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local
 
 RUN chmod -R 777 /var/www
 RUN composer install --prefer-source
-RUN php artisan telescope:install
 
 COPY . /var/www
-
-#RUN rm -rf ./vendor
+RUN php artisan telescope:install
 
 RUN rm  /var/www/public/storage
 RUN  php artisan storage:link
