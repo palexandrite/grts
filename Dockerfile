@@ -26,10 +26,11 @@ COPY composer.lock composer.json /var/www/
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 #RUN php -d memory_limit=-1 composer.phar update
 #RUN php -d memory_limit=-1 composer.phar install
-RUN composer install
-RUN php artisan telescope:install
 
 RUN  composer require --prefer-source  laravel/telescope
+RUN php artisan telescope:install
+
+RUN composer install
 
 COPY . /var/www
 RUN chmod -R 777 /var/www
