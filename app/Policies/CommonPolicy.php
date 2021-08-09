@@ -9,11 +9,8 @@ class CommonPolicy
 {
     use HandlesAuthorization;
 
-<<<<<<< HEAD
-=======
     const FULL_GRANTED = 'full-granted';
 
->>>>>>> 2c04c23 (Init commit)
     /**
      * Create a new policy instance.
      *
@@ -23,8 +20,6 @@ class CommonPolicy
     {
         //
     }
-<<<<<<< HEAD
-=======
 
     public function fullGranted(User $user) : bool
     {
@@ -66,5 +61,4 @@ class CommonPolicy
 
         return $isGranted;
     }
->>>>>>> 2c04c23 (Init commit)
 }

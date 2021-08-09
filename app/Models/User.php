@@ -91,11 +91,7 @@ class User extends Authenticatable
      */
     public function permissions()
     {
-<<<<<<< HEAD
-        return $this->belongsToMany(Permission::class);
-=======
         return $this->belongsToMany(Permission::class)->withTimestamps();
->>>>>>> 2c04c23 (Init commit)
     }
 
     /**

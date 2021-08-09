@@ -6,10 +6,7 @@ use App\Http\Controllers\Api\Mobile\AuthController;
 use App\Http\Controllers\Api\Admin\{
     OrganizationController,
     ReceiverController,
-<<<<<<< HEAD
-=======
     SearchController,
->>>>>>> 2c04c23 (Init commit)
     StatsController,
     UserController,
 };
@@ -46,56 +43,6 @@ Route::prefix('mobile')->group(function() {
 Route::middleware(['auth:sanctum', 'ajax'])->prefix('manager')->group(function() {
 
     Route::post('/get-stats', StatsController::class);
-<<<<<<< HEAD
-    
-    Route::prefix('/users')->group(function () {
-
-        Route::post('/', [UserController::class, 'index']);
-
-        Route::post('/create', [UserController::class, 'store']);
-
-        Route::post('/show', [UserController::class, 'edit']);
-
-        Route::post('/update', [UserController::class, 'update']);
-
-        Route::post('/search', [UserController::class, 'search']);
-
-        Route::post('/delete', [UserController::class, 'destroy']);
-
-    });
-
-    Route::prefix('/organizations')->group(function () {
-
-        Route::post('/', [OrganizationController::class, 'index']);
-
-        Route::post('/create', [OrganizationController::class, 'store']);
-
-        Route::post('/show', [OrganizationController::class, 'edit']);
-
-        Route::post('/update', [OrganizationController::class, 'update']);
-
-        Route::post('/search', [OrganizationController::class, 'search']);
-
-        Route::post('/delete', [OrganizationController::class, 'destroy']);
-
-    });
-
-    Route::prefix('/receivers')->group(function () {
-
-        Route::post('/', [ReceiverController::class, 'index']);
-
-        Route::post('/create', [ReceiverController::class, 'store']);
-
-        Route::post('/show', [ReceiverController::class, 'show']);
-
-        Route::post('/update', [ReceiverController::class, 'update']);
-
-        Route::post('/search', [ReceiverController::class, 'search']);
-
-        Route::post('/delete', [ReceiverController::class, 'destroy']);
-
-    });
-=======
 
     Route::prefix('search')->group(function() {
 
@@ -112,7 +59,6 @@ Route::middleware(['auth:sanctum', 'ajax'])->prefix('manager')->group(function()
     Route::apiResource('organizations', OrganizationController::class);
 
     Route::apiResource('users', UserController::class);
->>>>>>> 2c04c23 (Init commit)
 
 });
 

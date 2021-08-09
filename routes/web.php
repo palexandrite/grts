@@ -32,14 +32,6 @@ Route::middleware(['auth'])->prefix('manager')->group(function () {
     Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])
                 ->name('logout');
 
-<<<<<<< HEAD
-    Route::view('/dashboard', 'admin.dashboard');
-
-    Route::view('/api-mobile-docs', 'admin.api_mobile_docs');
-
-    Route::view('{remaining_path}', 'admin.dashboard')
-        ->where(['remaining_path' => '[\w/-]+']);
-=======
     Route::view('/dashboard', 'admin.dashboard')
         ->middleware('can:full-granted');
 
@@ -49,7 +41,6 @@ Route::middleware(['auth'])->prefix('manager')->group(function () {
     Route::view('{remaining_path}', 'admin.dashboard')
         ->where(['remaining_path' => '[\w/-]+'])
         ->middleware('can:full-granted');
->>>>>>> 2c04c23 (Init commit)
 
     Route::redirect('/', '/manager/dashboard');
 

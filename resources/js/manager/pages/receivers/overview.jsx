@@ -51,27 +51,14 @@ class Overview extends React.Component
     {
         if ( this.props.match.params.id ) {
             const token = this.getCookie("atoken");
-<<<<<<< HEAD
-            let url = "/api/manager/receivers/show",
-                params = {
-                    method: "POST",
-=======
             let url = "/api/manager/receivers/" + this.props.match.params.id,
                 params = {
                     method: "GET",
->>>>>>> 2c04c23 (Init commit)
                     headers: {
                         "Content-Type": "application/json",
                         "Authorization": "Bearer " + token,
                         "X-Requested-With": "XMLHttpRequest",
-<<<<<<< HEAD
-                    },
-                    body: JSON.stringify({
-                        item: this.props.match.params.id
-                    }),
-=======
                     }
->>>>>>> 2c04c23 (Init commit)
                 };
     
             fetch( url, params )

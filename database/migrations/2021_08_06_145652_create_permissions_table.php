@@ -2,14 +2,10 @@
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
-<<<<<<< HEAD
-use Illuminate\Support\Facades\Schema;
-=======
 use Illuminate\Support\Facades\{
     DB,
     Schema
 };
->>>>>>> 2c04c23 (Init commit)
 
 class CreatePermissionsTable extends Migration
 {
@@ -26,11 +22,8 @@ class CreatePermissionsTable extends Migration
             $table->text('description');
             $table->timestamps();
         });
-<<<<<<< HEAD
-=======
 
         $this->initPermissionsTable();
->>>>>>> 2c04c23 (Init commit)
     }
 
     /**
@@ -42,8 +35,6 @@ class CreatePermissionsTable extends Migration
     {
         Schema::dropIfExists('permissions');
     }
-<<<<<<< HEAD
-=======
 
     private function initPermissionsTable()
     {
@@ -64,5 +55,4 @@ class CreatePermissionsTable extends Migration
         
         DB::table('permissions')->insert($data);
     }
->>>>>>> 2c04c23 (Init commit)
 }

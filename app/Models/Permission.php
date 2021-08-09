@@ -45,11 +45,7 @@ class Permission extends Model
      */
     public function users()
     {
-<<<<<<< HEAD
-        return $this->belongsToMany(User::class);
-=======
         return $this->belongsToMany(User::class)->withTimestamps();
->>>>>>> 2c04c23 (Init commit)
     }
 
     /**

@@ -1,11 +1,7 @@
 import React from "react";
 import { Link, Route, Switch } from "react-router-dom";
 
-<<<<<<< HEAD
-import Form from "../../components/Form";
-=======
 import Form from "../../components/forms/CommonForm";
->>>>>>> 2c04c23 (Init commit)
 import Table from "../../components/Table";
 import NoMatch from "../errors/404";
 

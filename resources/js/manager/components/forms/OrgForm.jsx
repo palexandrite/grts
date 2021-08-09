@@ -32,8 +32,6 @@ class Form extends React.Component
         this.submitButtonRef = React.createRef();
         this.submitTextRef = React.createRef();
         this.submitSpinnerRef = React.createRef();
-<<<<<<< HEAD
-=======
 
         const token = this.getCookie("atoken");
         this.baseFetchUrl = "/api/manager/";
@@ -46,7 +44,6 @@ class Form extends React.Component
                 "X-CSRF-Token": document.querySelector("meta[name=csrf-token]").content
             }
         };
->>>>>>> 2c04c23 (Init commit)
     }
 
     componentWillUnmount()
@@ -75,28 +72,9 @@ class Form extends React.Component
     {
         if ( this.props.match.params.id ) {
 
-<<<<<<< HEAD
-            const token = this.getCookie("atoken");
-            let url = "/api/manager/" + this.props.model + "/show",
-                params = {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json",
-                        "Authorization": "Bearer " + token,
-                        "X-Requested-With": "XMLHttpRequest",
-                        "X-CSRF-Token": document.querySelector("meta[name=csrf-token]").content
-                    },
-                    body: JSON.stringify({
-                        item: this.props.match.params.id
-                    }),
-                };
-    
-            fetch( url, params )
-=======
             let url = this.baseFetchUrl + this.props.model + "/" + this.props.match.params.id;
     
             fetch( url, this.fetchParams )
->>>>>>> 2c04c23 (Init commit)
                 .then(response => {
                     if ( response.status === 401 ) {
 
@@ -160,20 +138,6 @@ class Form extends React.Component
         submitText.classList.toggle("d-none");
         submitSpinner.classList.toggle("d-none");
 
-<<<<<<< HEAD
-        const token = this.getCookie("atoken");
-        let url = "/api/manager/" + this.props.model + "/" + this.props.url,
-            params = {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                    "Authorization": "Bearer " + token,
-                    "X-Requested-With": "XMLHttpRequest",
-                    "X-CSRF-Token": document.querySelector("meta[name=csrf-token]").content
-                },
-                body: JSON.stringify(this.state.item),
-            };
-=======
         let url,
             params = Object.assign({}, this.fetchParams);
 
@@ -186,7 +150,6 @@ class Form extends React.Component
         }
 
         params.body = JSON.stringify(this.state.item);
->>>>>>> 2c04c23 (Init commit)
 
         fetch( url, params )
             .then(response => {
@@ -199,13 +162,6 @@ class Form extends React.Component
                 return response.json();
             })
             .then(data => {
-<<<<<<< HEAD
-
-                console.log('this is a response');
-                console.dir(data);
-
-=======
->>>>>>> 2c04c23 (Init commit)
                 submitButton.disabled = false;
                 submitText.classList.toggle("d-none");
                 submitSpinner.classList.toggle("d-none");

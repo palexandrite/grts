@@ -62,14 +62,8 @@ class UserController extends Controller
     /**
      * Show the specified user
      */
-<<<<<<< HEAD
-    public function edit(Request $request)
-    {
-        $id = $request->post('item');
-=======
     public function show($id)
     {
->>>>>>> 2c04c23 (Init commit)
         $user = User::find($id);
 
         return response()->json($user);
@@ -112,14 +106,8 @@ class UserController extends Controller
     /**
      * Remove the specified user from storage.
      */
-<<<<<<< HEAD
-    public function destroy(Request $request)
-    {
-        $id = $request->input('id');
-=======
     public function destroy($id)
     {
->>>>>>> 2c04c23 (Init commit)
         $deleted = User::destroy($id);
 
         $response = [];
@@ -129,11 +117,6 @@ class UserController extends Controller
             /**
              * @return Illuminate\Pagination\LengthAwarePaginator
              */
-<<<<<<< HEAD
-            $response['pagination'] = User::paginate(15);
-            
-            $response['success'] = 'It is successfully deleted';
-=======
             $pagination = User::paginate(15);
             
             $response = [
@@ -145,7 +128,6 @@ class UserController extends Controller
                 'attrnames' => $this->getAttributesAsKeys($pagination->getCollection()),
                 'success' => 'It is successfully deleted',
             ];
->>>>>>> 2c04c23 (Init commit)
 
         } else {
             $response['error'] = 'None of the items was deleted';

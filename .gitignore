@@ -1,8 +1,4 @@
-<<<<<<< HEAD
-*/vendor*
-=======
 /vendor
->>>>>>> 2c04c23 (Init commit)
 /node_modules
 /public/hot
 /storage/*.key
@@ -14,15 +10,9 @@ npm-debug.log
 yarn-error.log
 /.idea
 /.vscode
-<<<<<<< HEAD
-withoutreact-*.js
-withoutreact-*.php
-/resources/views/admin/withoutreact-organization
-=======
 
 
 vendor.zip
 withoutreact-*.js
 withoutreact-*.php
 /resources/views/admin/withoutreact-organization
->>>>>>> 2c04c23 (Init commit)

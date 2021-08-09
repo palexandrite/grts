@@ -6,10 +6,7 @@ use Illuminate\Database\Seeder;
 
 use App\Models\{
     Organization,
-<<<<<<< HEAD
-=======
     Permission,
->>>>>>> 2c04c23 (Init commit)
     Receiver,
     ReceiverData,
     User
@@ -24,22 +21,10 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-<<<<<<< HEAD
-        $model = User::where(['email' => 'gratus@example.com'])->first();
-
-        if (!$model) {
-            User::factory()->create([
-                'email' => 'gratus@example.com',
-            ]);
-        }
-
-        $number = rand(30, 50);
-=======
         $this->precisionPreliminarySeeding();
 
         $number = rand(30, 50);
 
->>>>>>> 2c04c23 (Init commit)
         Receiver::factory($number)
             ->has(ReceiverData::factory()->count(1))
             ->hasCreditCard(1, function(array $attributes, Receiver $receiver) {
@@ -53,11 +38,6 @@ class DatabaseSeeder extends Seeder
                 return $attributes;
             })
             ->create();
-<<<<<<< HEAD
-        User::factory($number)->create();
-        Organization::factory($number)->create();
-    }
-=======
 
         User::factory($number)->create();
 
@@ -115,5 +95,4 @@ class DatabaseSeeder extends Seeder
 
         return $isGranted;
     }
->>>>>>> 2c04c23 (Init commit)
 }
