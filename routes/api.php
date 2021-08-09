@@ -6,6 +6,10 @@ use App\Http\Controllers\Api\Mobile\AuthController;
 use App\Http\Controllers\Api\Admin\{
     OrganizationController,
     ReceiverController,
+<<<<<<< HEAD
+=======
+    SearchController,
+>>>>>>> 2c04c23 (Init commit)
     StatsController,
     UserController,
 };
@@ -42,6 +46,7 @@ Route::prefix('mobile')->group(function() {
 Route::middleware(['auth:sanctum', 'ajax'])->prefix('manager')->group(function() {
 
     Route::post('/get-stats', StatsController::class);
+<<<<<<< HEAD
     
     Route::prefix('/users')->group(function () {
 
@@ -90,6 +95,24 @@ Route::middleware(['auth:sanctum', 'ajax'])->prefix('manager')->group(function()
         Route::post('/delete', [ReceiverController::class, 'destroy']);
 
     });
+=======
+
+    Route::prefix('search')->group(function() {
+
+        Route::post('/organizations', [SearchController::class, 'organizations']);
+
+        Route::post('/receivers', [SearchController::class, 'receivers']);
+
+        Route::post('/users', [SearchController::class, 'users']);
+
+    });
+
+    Route::apiResource('receivers', ReceiverController::class);
+
+    Route::apiResource('organizations', OrganizationController::class);
+
+    Route::apiResource('users', UserController::class);
+>>>>>>> 2c04c23 (Init commit)
 
 });
 

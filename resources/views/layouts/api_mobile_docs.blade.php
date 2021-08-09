@@ -5,6 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
+<<<<<<< HEAD
     <title>This is the Dashboard of Gratus</title>
 
     <!-- Google Font: Source Sans Pro -->
@@ -85,5 +86,15 @@
         }
     </script>
     <script defer src="{{ asset('storage/js/api-mobile-documentor.js') }}" onload="raiseCurtain()"></script>
+=======
+    <title>Api Documentation of Gratus</title>
+
+</head>
+<body>
+
+    @yield('content')
+
+    <script src="{{ asset('storage/js/api-mobile-documentor.js') }}"></script>
+>>>>>>> 2c04c23 (Init commit)
 </body>
 </html>

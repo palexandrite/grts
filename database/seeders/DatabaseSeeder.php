@@ -6,6 +6,10 @@ use Illuminate\Database\Seeder;
 
 use App\Models\{
     Organization,
+<<<<<<< HEAD
+=======
+    Permission,
+>>>>>>> 2c04c23 (Init commit)
     Receiver,
     ReceiverData,
     User
@@ -20,6 +24,7 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
+<<<<<<< HEAD
         $model = User::where(['email' => 'gratus@example.com'])->first();
 
         if (!$model) {
@@ -29,6 +34,12 @@ class DatabaseSeeder extends Seeder
         }
 
         $number = rand(30, 50);
+=======
+        $this->precisionPreliminarySeeding();
+
+        $number = rand(30, 50);
+
+>>>>>>> 2c04c23 (Init commit)
         Receiver::factory($number)
             ->has(ReceiverData::factory()->count(1))
             ->hasCreditCard(1, function(array $attributes, Receiver $receiver) {
@@ -42,7 +53,67 @@ class DatabaseSeeder extends Seeder
                 return $attributes;
             })
             ->create();
+<<<<<<< HEAD
         User::factory($number)->create();
         Organization::factory($number)->create();
     }
+=======
+
+        User::factory($number)->create();
+
+        Organization::factory($number)->create();
+    }
+
+    private function precisionPreliminarySeeding()
+    {
+        $admin = User::where(['email' => 'gratus@example.com'])->first();
+        $apiUser = User::where(['email' => 'api_gratus@example.com'])->first();
+
+        if (!$admin) {
+            $admin = User::factory()->create([
+                'email' => 'gratus@example.com',
+            ]);
+        }
+
+        if (!$apiUser) {
+            $apiUser = User::factory()->create([
+                'email' => 'api_gratus@example.com',
+            ]);
+        }
+
+        $permissions = Permission::all();
+
+        $adminPermissions = $admin->permissions;
+        $apiUserPermissions = $apiUser->permissions;
+
+        if (!$this->shouldBeSeeded($adminPermissions, 'full-granted')) {
+            $admin->permissions()->save($permissions->filter(function($value, $key) {
+                return $value->name === 'full-granted';
+            })->first());
+        }
+
+        if (!$this->shouldBeSeeded($apiUserPermissions, 'api-mobile-granted')) {
+            $apiUser->permissions()->save($permissions->filter(function($value, $key) {
+                return $value->name === 'api-mobile-granted';
+            })->first());
+        }
+    }
+
+    private function shouldBeSeeded($permissions = null, $permissionName = null)
+    {
+        $isGranted = false;
+
+        if (!empty($permissions)) {
+            foreach ($permissions as $permission) {
+                if ($permission->name === $permissionName) {
+                    $isGranted = true;
+                    break;
+                }
+            }
+            unset($permission);
+        }
+
+        return $isGranted;
+    }
+>>>>>>> 2c04c23 (Init commit)
 }

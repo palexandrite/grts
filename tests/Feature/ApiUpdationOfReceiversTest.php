@@ -59,8 +59,11 @@ class ApiUpdationOfReceiversTest extends TestCase
             'X-Requested-With' => 'XMLHttpRequest',
         ])->post('/api/manager/receivers/update', $this->changeAndPrepareTheReceiver());
 
+<<<<<<< HEAD
         $response->dump();
 
+=======
+>>>>>>> 2c04c23 (Init commit)
         $response->assertStatus(200);
     }
 

@@ -32,7 +32,12 @@ class AppServiceProvider extends ServiceProvider
          * @throw Illuminate\Database\LazyLoadingViolationException 
          * Throw it in case the lazy loading of a model is presented
          */
+<<<<<<< HEAD
         Model::preventLazyLoading(! $this->app->isProduction());
+=======
+        // Model::preventLazyLoading(! $this->app->isProduction());
+        Model::preventLazyLoading(true);
+>>>>>>> 2c04c23 (Init commit)
 
         /**
          * The global default validation settings for passwords

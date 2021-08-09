@@ -43,14 +43,20 @@ class Organizations extends React.Component
                         <Route exact path="/manager/organizations/create">
                             <Form
                                 model="organizations" 
+<<<<<<< HEAD
                                 url="create"
+=======
+>>>>>>> 2c04c23 (Init commit)
                                 fields={ FormFields() }
                                 currentText="Create a organization" />
                         </Route>
                         <Route exact path="/manager/organizations/edit/:id">
                             <Form
                                 model="organizations" 
+<<<<<<< HEAD
                                 url="update"
+=======
+>>>>>>> 2c04c23 (Init commit)
                                 fields={ FormFields() }
                                 currentText="Edit the organization" />
                         </Route>

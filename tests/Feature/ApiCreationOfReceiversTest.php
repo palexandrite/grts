@@ -33,6 +33,10 @@ class ApiCreationOfReceiversTest extends TestCase
             'credit_card[secret_code]' => '4444',
             'credit_card[zip_code]' => '5677-333',
 
+<<<<<<< HEAD
+=======
+            'receiver_data[is_kyc_passed]' => true,
+>>>>>>> 2c04c23 (Init commit)
             'receiver_data[birth_date]' => '1950-12-31',
             'receiver_data[phone_number]' => '+1-900-500-50-50',
             'receiver_data[postal_code]' => '55555-666',
@@ -70,6 +74,10 @@ class ApiCreationOfReceiversTest extends TestCase
             'credit_card[secret_code]' => '',
             'credit_card[zip_code]' => '',
 
+<<<<<<< HEAD
+=======
+            'receiver_data[is_kyc_passed]' => true,
+>>>>>>> 2c04c23 (Init commit)
             'receiver_data[birth_date]' => '1950-12-31',
             'receiver_data[phone_number]' => '+1-900-500-50-50',
             'receiver_data[postal_code]' => '55555-666',
@@ -107,6 +115,10 @@ class ApiCreationOfReceiversTest extends TestCase
             'credit_card[secret_code]' => '4444',
             'credit_card[zip_code]' => '5677-333',
 
+<<<<<<< HEAD
+=======
+            'receiver_data[is_kyc_passed]' => true,
+>>>>>>> 2c04c23 (Init commit)
             'receiver_data[birth_date]' => '1950-12-31',
             'receiver_data[phone_number]' => '+1-900-500-50-50',
             'receiver_data[postal_code]' => '55555-666',

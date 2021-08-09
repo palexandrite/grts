@@ -42,6 +42,11 @@ class OrganizationController extends Controller
 
         $organization = Organization::create([
             'name' => $validated['name'],
+<<<<<<< HEAD
+=======
+            'email' => $validated['email'],
+            'password' => Hash::make($validated['password']),
+>>>>>>> 2c04c23 (Init commit)
             'status' => Organization::setStatus($validated['status']),
         ]);
 
@@ -59,9 +64,14 @@ class OrganizationController extends Controller
     /**
      * Show the specified org
      */
+<<<<<<< HEAD
     public function edit(Request $request)
     {
         $id = $request->post('item');
+=======
+    public function show($id)
+    {
+>>>>>>> 2c04c23 (Init commit)
         $org = Organization::find($id);
 
         return response()->json($org);
@@ -102,9 +112,14 @@ class OrganizationController extends Controller
     /**
      * Remove the specified organization from storage.
      */
+<<<<<<< HEAD
     public function destroy(Request $request)
     {
         $id = $request->input('id');
+=======
+    public function destroy($id)
+    {
+>>>>>>> 2c04c23 (Init commit)
         $deleted = Organization::destroy($id);
 
         $response = [];

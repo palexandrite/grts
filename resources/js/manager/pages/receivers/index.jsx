@@ -46,14 +46,21 @@ class ServiceProviders extends React.Component
                         <Route exact path="/manager/receivers/create">
                             <Form
                                 model="receivers" 
+<<<<<<< HEAD
                                 url="create"
+=======
+>>>>>>> 2c04c23 (Init commit)
                                 fields={ FormFields() }
                                 currentText="The creation of a receiver" />
                         </Route>
                         <Route exact path="/manager/receivers/edit/:id">
                             <Form
+<<<<<<< HEAD
                                 model="receivers" 
                                 url="update"
+=======
+                                model="receivers"
+>>>>>>> 2c04c23 (Init commit)
                                 fields={ FormFields() }
                                 currentText="Edit the receiver" />
                         </Route>

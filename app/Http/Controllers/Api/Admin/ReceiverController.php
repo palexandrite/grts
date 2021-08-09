@@ -103,9 +103,14 @@ class ReceiverController extends Controller
     /**
      * Display the specified receiver for an update and an overview
      */
+<<<<<<< HEAD
     public function show(Request $request)
     {
         $id = $request->post('item');
+=======
+    public function show($id)
+    {
+>>>>>>> 2c04c23 (Init commit)
         $receiver = Receiver::with(['receiverData', 'creditCard', 'bankAccount'])->find($id);
 
         return response()->json($receiver);
@@ -167,10 +172,15 @@ class ReceiverController extends Controller
     /**
      * Remove the specified provider from storage.
      */
+<<<<<<< HEAD
     public function destroy(Request $request)
     {
         $id = $request->input('id');
 
+=======
+    public function destroy($id)
+    {
+>>>>>>> 2c04c23 (Init commit)
         $receiver = Receiver::with(['receiverData', 'creditCard', 'bankAccount'])
                 ->find($id);
         if (!empty($receiver->receiverData)) {

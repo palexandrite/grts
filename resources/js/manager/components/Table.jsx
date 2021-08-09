@@ -30,9 +30,15 @@ class Table extends React.Component
         this.handleClickOnDeleteButton = this.handleClickOnDeleteButton.bind(this);
 
         const token = this.getCookie("atoken");
+<<<<<<< HEAD
         this.fetchUrl = "/api/manager/" + props.model;
         this.fetchParams = {
             method: "POST",
+=======
+        this.fetchUrl = "/api/manager/";
+        this.fetchParams = {
+            method: "GET",
+>>>>>>> 2c04c23 (Init commit)
             headers: {
                 "Content-Type": "application/json",
                 "Authorization": "Bearer " + token,
@@ -45,7 +51,13 @@ class Table extends React.Component
 
     componentDidMount()
     {
+<<<<<<< HEAD
         fetch( this.fetchUrl, this.fetchParams )
+=======
+        let url = this.fetchUrl + this.props.model;
+
+        fetch( url, this.fetchParams )
+>>>>>>> 2c04c23 (Init commit)
             .then(response => response.json())
             .then(json => {
                 console.dir(json);
@@ -95,10 +107,16 @@ class Table extends React.Component
     handlePaginationClick( e )
     {
         let nextPage = e.currentTarget.dataset.page;
+<<<<<<< HEAD
         let params = Object.assign({}, this.fetchParams);
         params.body = JSON.stringify({page: nextPage});
 
         fetch( this.fetchUrl, params )
+=======
+        let url = this.fetchUrl + this.props.model + "?page=" + nextPage;
+
+        fetch( url, this.fetchParams )
+>>>>>>> 2c04c23 (Init commit)
             .then(response => response.json())
             .then(json => {
                 this.setState({
@@ -113,8 +131,15 @@ class Table extends React.Component
     {
         let value = e.target.value;
         let isEmpty = value === "";
+<<<<<<< HEAD
         let url = this.fetchUrl + "/search";
         let params = Object.assign({}, this.fetchParams);
+=======
+        let url = this.fetchUrl + "search/" + this.props.model;
+        let params = Object.assign({}, this.fetchParams);
+
+        params.method = "POST";
+>>>>>>> 2c04c23 (Init commit)
         params.body = JSON.stringify({search: value});
 
         fetch( url, params )
@@ -136,7 +161,11 @@ class Table extends React.Component
 
     handleClickOnDeleteButton( e )
     {
+<<<<<<< HEAD
         let url = this.fetchUrl + "/delete";
+=======
+        let url = this.fetchUrl + this.props.model + "/" + e.currentTarget.dataset.id;
+>>>>>>> 2c04c23 (Init commit)
         let params = Object.assign({}, this.fetchParams);
         let currentPage = (() => {
             let amount = this.state.tableBodyItems.length;
@@ -150,8 +179,13 @@ class Table extends React.Component
             return current;
         })();
 
+<<<<<<< HEAD
         params.body = JSON.stringify({
             id: e.currentTarget.dataset.id,
+=======
+        params.method = "DELETE";
+        params.body = JSON.stringify({
+>>>>>>> 2c04c23 (Init commit)
             page: currentPage
         });
         

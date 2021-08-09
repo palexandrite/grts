@@ -1,7 +1,11 @@
 import React from "react";
 import { Link, Route, Switch } from "react-router-dom";
 
+<<<<<<< HEAD
 import Form from "../../components/Form";
+=======
+import Form from "../../components/forms/CommonForm";
+>>>>>>> 2c04c23 (Init commit)
 import Table from "../../components/Table";
 import NoMatch from "../errors/404";
 
@@ -42,15 +46,22 @@ class Users extends React.Component
                     <Switch>
                         <Route exact path="/manager/users/create">
                             <Form
+<<<<<<< HEAD
                                 model="users" 
                                 url="create"
+=======
+                                model="users"
+>>>>>>> 2c04c23 (Init commit)
                                 fields={ FormFields() }
                                 currentText="Create an user" />
                         </Route>
                         <Route exact path="/manager/users/edit/:id">
                             <Form
                                 model="users" 
+<<<<<<< HEAD
                                 url="update"
+=======
+>>>>>>> 2c04c23 (Init commit)
                                 fields={ FormFields() }
                                 currentText="Edit the user" />
                         </Route>

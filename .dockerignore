@@ -1,4 +1,8 @@
 .gitlab-ci.yml
+<<<<<<< HEAD
 */vendor*
+=======
+vendor
+>>>>>>> 2c04c23 (Init commit)
 Dockerfile
 Docekrfile_nginx

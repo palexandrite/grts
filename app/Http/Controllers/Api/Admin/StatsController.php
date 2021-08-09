@@ -8,7 +8,11 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Request;
 use App\Models\{
     // Customers,
+<<<<<<< HEAD
     ServiceProvider,
+=======
+    Receiver,
+>>>>>>> 2c04c23 (Init commit)
     User
 };
 
@@ -94,7 +98,11 @@ class StatsController extends Controller
         if ($class === 'users') {
             return User::class;
         } else if ($class === 'providers') {
+<<<<<<< HEAD
             return ServiceProvider::class;
+=======
+            return Receiver::class;
+>>>>>>> 2c04c23 (Init commit)
         } /* else if ($class === 'listing') {
             return Listing::class;
         } else if ($class === 'deal') {
