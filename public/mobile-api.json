@@ -1,0 +1,88 @@
+{
+    "openapi": "3.0.0",
+
+    "info": {
+        "title": "The mobile OpenAPI docs.",
+        "description": "There is a documentation for mobile devices.",
+        "version": "1.0.0"
+    },
+
+    "servers": [
+        {
+            "url": "http://gratus.local/api/mobile/",
+            "description": "The main part of the endpoint url."
+        }
+    ],
+
+    "paths": {
+        "/register": {
+            "post": {
+                "summary": "Registers users",
+                "description": "We just register a user here.",
+                "requestBody": {
+                    "required": "true",
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "first_name": {
+                                        "type": "string",
+                                        "example": "Test"
+                                    },
+                                    "last_name": {
+                                        "type": "string",
+                                        "example": "User"
+                                    },
+                                    "email": {
+                                        "type": "string",
+                                        "example": "test@example.com"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "example": "password12"
+                                    },
+                                    "password_confirmation": {
+                                        "type": "string",
+                                        "example": "password12"
+                                    },
+                                    "device_name": {
+                                        "type": "string",
+                                        "example": "127.0.0.1-iPhone"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "A JSON array",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "string"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+
+    "components": {
+        "schemas": {
+            "User": {
+                "properties": {},
+                "required": [
+                    "",
+                    ""
+                ]
+            }
+        }
+    }
+}

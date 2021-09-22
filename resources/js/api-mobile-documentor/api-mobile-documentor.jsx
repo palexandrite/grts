@@ -5,7 +5,8 @@ import "swagger-ui-react/swagger-ui.css";
 
 const App = () => (
     <SwaggerUI 
-        url="https://petstore.swagger.io/v2/swagger.json" />
+        url="/mobile-api.json"
+         />
 );
 
 ReactDOM.render(<App />, document.getElementById('root'));
